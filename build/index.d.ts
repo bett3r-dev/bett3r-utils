@@ -8,6 +8,12 @@ export declare function unshift<T>(value: any): (list: Array<T>) => Array<T>;
 export declare function unshift<T>(value: any, list: Array<T>): Array<T>;
 export declare function findAndPerform<T, V>(predicate: (element: any) => any): (iterable: Iterable<T>) => V;
 export declare function findAndPerform<T, V>(predicate: (element: any) => any, iterable: Iterable<T>): V;
+export interface Functor<ADT> {
+    map: (fn: (arg: any) => any) => ADT;
+}
+export declare function traverse<ADT>(functor: (arg: any) => Functor<ADT>): (fn: (arg: any) => any, array?: any[]) => ((array: any[]) => ADT) | ADT;
+export declare function traverse<ADT>(functor: (arg: any) => Functor<ADT>, fn: (arg: any) => any): (array: any[]) => ADT;
+export declare function traverse<ADT>(functor: (arg: any) => Functor<ADT>, fn: (arg: any) => any, array: any[]): ADT;
 declare const _default: {
     isError: (error?: any) => boolean;
     ensureArray: <T>(theArray?: T | T[]) => T[];
@@ -15,6 +21,7 @@ declare const _default: {
     push: typeof push;
     unshift: typeof unshift;
     findAndPerform: typeof findAndPerform;
+    traverse: typeof traverse;
 };
 export default _default;
 //# sourceMappingURL=index.d.ts.map

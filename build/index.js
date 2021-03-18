@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAndPerform = exports.unshift = exports.push = exports.foldMap = exports.ensureArray = exports.isError = void 0;
+exports.traverse = exports.findAndPerform = exports.unshift = exports.push = exports.foldMap = exports.ensureArray = exports.isError = void 0;
 const rambda_1 = require("rambda");
 const isError = (error) => error instanceof Error;
 exports.isError = isError;
@@ -38,12 +38,18 @@ function findAndPerform(predicate, iterable) {
 }
 exports.findAndPerform = findAndPerform;
 ;
+function traverse(functor, fn, array) {
+    return array.reduce((acc, item) => acc.map(x => y => x.concat([y])).ap(fn(item)), functor([]));
+}
+exports.traverse = traverse;
+;
 exports.default = {
     isError: exports.isError,
     ensureArray: exports.ensureArray,
     foldMap,
     push,
     unshift,
-    findAndPerform
+    findAndPerform,
+    traverse
 };
 //# sourceMappingURL=index.js.map
