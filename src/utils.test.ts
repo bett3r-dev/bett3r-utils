@@ -1,4 +1,5 @@
 import {assert} from 'chai';
+import Async from 'crocks/Async';
 
 import {
   isError,
@@ -6,7 +7,8 @@ import {
   foldMap,
   push,
   unshift,
-  findAndPerform
+  findAndPerform,
+  traverse
 } from './index';
 
 describe('utils', function() {
@@ -87,6 +89,33 @@ describe('utils', function() {
       const arr = [ 2, 4, 3 ];
       const result = findAndPerform( x => x % 2, arr );
       assert.equal( result, 1 );
+    });
+  });
+
+  describe( 'traverse', function() {
+    it( 'traverses one array of X(concatenable) into a X of an array', ( done ) => {
+      const someAsync = ( x ) => Async(( reject, resolve ) => {
+        setTimeout(() => {
+          resolve( x * 2 );
+        }, 10 );
+      });
+      traverse( Async.of, someAsync, [ 1,2,3,4 ])
+        .fork(done, ( result ) => {
+          assert.deepEqual(result, [2,4,6,8])
+          done();
+        });
+    });
+    it( 'traverses one array of X(concatenable) into a X of an array', ( done ) => {
+      const someAsync = ( x ) => Async(( reject, resolve ) => {
+        setTimeout(() => {
+          resolve( x * 2 );
+        }, 100 );
+      });
+      traverse( Async.of, x=> x, [ someAsync( 1 ),someAsync( 2 ),someAsync( 3 ),someAsync( 4 ) ])
+        .fork(done, ( result ) => {
+          assert.deepEqual(result, [2,4,6,8])
+          done();
+        });
     });
   });
 });

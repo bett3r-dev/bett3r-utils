@@ -37,12 +37,26 @@ export function findAndPerform <T,V>( predicate: (element: any) => any, iterable
   }
 };
 
+export interface Functor<ADT>{
+  map: (fn: (arg: any)=> any) => ADT
+}
+
+export function traverse<ADT>( functor:(arg: any)=> Functor<ADT> ): (fn: (arg:any) => any, array?: any[]) => ((array: any[]) => ADT) | ADT
+export function traverse<ADT>( functor:(arg: any)=> Functor<ADT>, fn: (arg:any) => any ) :(array: any[]) => ADT
+export function traverse<ADT>( functor:(arg: any)=> Functor<ADT>, fn: (arg:any) => any, array: any[] ): ADT
+export function traverse<ADT>( functor:(arg: any)=> Functor<ADT>, fn?: (arg:any) => any, array?: any[] ): ADT {
+  return array.reduce(( acc, item ) =>
+    acc.map( x => y => x.concat([y])).ap( fn( item )), functor([]));
+};
+
+
 export default {
   isError,
   ensureArray,
   foldMap,
   push,
   unshift,
-  findAndPerform
+  findAndPerform,
+  traverse
 }
 
