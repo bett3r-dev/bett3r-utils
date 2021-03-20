@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.2.15",
-    "@types/crocks": "https://github.com/tomasruizr/types-crocks.git",
+    "@types/crocks": "https://github.com/tomasruizr/types-crocks.git#maybeToAsync",
     "@types/mocha": "^8.2.1",
     "@types/node": "^14.14.32",
     "@types/sinon": "^9.0.11",
@@ -21,10 +21,10 @@
     "rambda": "^6.5.3",
     "sinon": "^9.2.4",
     "ts-mocha": "^8.0.0",
-    "tsc": "^1.20150623.0",
     "typescript": "^4.2.3"
   },
   "peerDependencies": {
+    "crocks": "^0.12.4",
     "rambda": "^6.5.3"
   }
 }
