@@ -1,5 +1,6 @@
 import { assert } from "chai";
 import Async from "crocks/Async";
+import Either from "crocks/Either";
 import * as mod from "./crocks";
 import { identity } from "rambda";
 
@@ -70,6 +71,22 @@ describe("crocks", function () {
     });
   });
 
+  describe( 'falsyToEither', function() {
+    it( 'returns rejected Either of condition', done => {
+      assert.isTrue( mod.falsyToEither([].length ).type() === 'Either');
+      mod.falsyToEither( [].length )
+        .either(() => done(), () => done(Error('Not ok')) );
+    });
+    it( 'returns Either of anything', () => {
+      assert.isTrue( mod.falsyToEither(['hola'].length ).type() === 'Either');
+      mod.falsyToEither(['hola'].length )
+        .either( identity, () => assert( true ));
+      Either.of( true )
+        .chain( mod.falsyToEither )
+        .either( () => assert( false ), () => assert( true ));
+    });
+  });
+
   describe( 'nullableToAsync', function() {
     it( 'returns rejected async of null', done => {
       assert.isTrue( mod.nullableToAsync( null ).type() === 'Async');
@@ -87,6 +104,26 @@ describe("crocks", function () {
         .chain(() => Async.of( true ))
         .chain( mod.nullableToAsync )
         .fork( () => assert(false, 'El valor no es null'), () => done());
+    });
+  });
+
+  describe( 'nullableToEither', function() {
+    it( 'returns rejected async of null', done => {
+      assert.isTrue( mod.nullableToEither( null ).type() === 'Either');
+      mod.nullableToEither( null )
+        .either(() => done(), done );
+    });
+    it( 'returns rejected async of undefined', done => {
+      assert.isTrue( mod.nullableToEither( undefined ).type() === 'Either');
+      mod.nullableToEither( undefined )
+        .either(() => done(), done );
+    });
+    it( 'returns async of anything', done => {
+      assert.isTrue( mod.nullableToEither(['hola'].length ).type() === 'Either');
+      mod.nullableToEither(['hola'].length )
+        .chain(() => Either.of( true ))
+        .chain( mod.nullableToEither )
+        .either( () => assert(false, 'El valor no es null'), () => done());
     });
   });
 

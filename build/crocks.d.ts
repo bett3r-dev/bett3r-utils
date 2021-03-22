@@ -1,8 +1,11 @@
 import Async from 'crocks/Async';
+import Either from 'crocks/Either';
 export declare const promiseToAsync: (promise: Promise<any>) => Async;
 export declare const ensureAsync: (possibleAsync?: any) => any;
 export declare const nullableToAsync: (arg?: any) => Async;
+export declare const nullableToEither: (arg?: any) => Either;
 export declare const falsyToAsync: (arg?: any) => Async;
+export declare const falsyToEither: (arg?: any) => Either;
 export declare const readFile: import("crocks/internal").VariadicFunction<Async>;
 export interface Functor<ADT> {
     map: (fn: (arg: any) => any) => ADT;

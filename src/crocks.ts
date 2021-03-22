@@ -1,6 +1,8 @@
 import fs from 'fs';
 import Async from 'crocks/Async';
+import Either from 'crocks/Either';
 import maybeToAsync from 'crocks/Async/maybeToAsync';
+import maybeToEither from 'crocks/Either/maybeToEither';
 import safe from 'crocks/Maybe/safe';
 import { isNil, isTruthy } from 'crocks';
 import { compose, identity, not } from 'rambda';
@@ -15,9 +17,17 @@ export const nullableToAsync = (arg?: any): Async =>
   Async.of(safe(compose(not, isNil), arg))
     .chain(maybeToAsync(null))
 
+export const nullableToEither = (arg?: any): Either =>
+  Either.of(safe(compose(not, isNil), arg))
+    .chain(maybeToEither(null))
+
 export const falsyToAsync = (arg?: any) : Async =>
   Async.of(safe(isTruthy, arg))
     .chain(maybeToAsync(false))
+
+export const falsyToEither = (arg?: any) : Either =>
+  Either.of(safe(isTruthy, arg))
+    .chain(maybeToEither(false))
 
 export const readFile = Async.fromNode(fs.readFile as any);
 
