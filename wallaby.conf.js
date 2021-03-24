@@ -5,12 +5,12 @@ module.exports = function (w) {
       '**/*.ts?(x)': w.compilers.typeScript({ /* isolatedModules: true, */ module:'commonjs' })
     },
     files: [
-      'src/*.ts',
-      { pattern: 'src/*.test.ts', ignore: true },
+      'src/{,**/}*.ts',
+      { pattern: 'src/{,**/}*.test.ts', ignore: true },
       { pattern: 'wallaby.conf.ts', ignore: true, instrument:false },
     ],
     tests: [
-      'src/*.test.ts',
+      'src/{,**/}*.test.ts',
     ],
     env: {
       type: 'node'
