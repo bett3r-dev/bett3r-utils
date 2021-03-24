@@ -1,7 +1,6 @@
 import * as flyd from '@tomasruizr/flyd';
 import filter from '@tomasruizr/flyd/module/filter';
 import { dropRepeats } from '@tomasruizr/flyd/module/droprepeats';
-
 export function once <T>( stream$: flyd.Stream<T> ): flyd.Stream<T> {
   return flyd.combine( function ( s$, self ) {
     self( s$());
@@ -41,6 +40,16 @@ export function getReadOnly <T>( originalStream: flyd.Stream<T> ){
   return flyd.combine( x=>x(), [originalStream]);
 }
 
+declare type S = typeof import('@tomasruizr/flyd');
+export interface Stream extends S {
+  filter: typeof filter
+  dedupe: typeof dropRepeats
+  once: typeof once
+  skip: typeof skip
+  bufferCount: typeof bufferCount
+  getReadOnly: typeof getReadOnly
+}
+
 export default {
   ...flyd,
   filter,
@@ -49,4 +58,4 @@ export default {
   skip,
   bufferCount,
   getReadOnly,
-};
+} as Stream;
