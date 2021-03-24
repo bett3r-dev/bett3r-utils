@@ -1,0 +1,38 @@
+export declare function once<T>(stream$: flyd.Stream<T>): flyd.Stream<T>;
+export declare function bufferCount<T>(bufferSize: number, source: flyd.Stream<T>): flyd.Stream<T>;
+export declare function bufferCount<T>(bufferSize: number, bufferEvery: number, source: flyd.Stream<T>): flyd.Stream<T[]>;
+export declare function skip<T>(count: number, stream: flyd.Stream<T>): flyd.Stream<T> | ((stream: flyd.Stream<T>) => flyd.Stream<T> | Function);
+export declare function getReadOnly<T>(originalStream: flyd.Stream<T>): flyd.Stream<T>;
+declare const _default: {
+    filter: any;
+    dedupe: any;
+    once: typeof once;
+    skip: typeof skip;
+    bufferCount: typeof bufferCount;
+    getReadOnly: typeof getReadOnly;
+    stream: flyd.CreateStream;
+    immediate<T>(stream: flyd.Stream<T>): flyd.Stream<T>;
+    isStream(stream: any): boolean;
+    combine: flyd.Combine;
+    endsOn<T_1>(end$: flyd.Stream<any>, stream: flyd.Stream<T_1>): flyd.Stream<T_1>;
+    map<T_2, V>(accessor: (value: T_2) => V): (stream: flyd.Stream<T_2>) => flyd.Stream<V>;
+    map<T_3, V_1>(accessor: (value: T_3) => V_1, stream: flyd.Stream<T_3>): flyd.Stream<V_1>;
+    ap<A, B>(value$: flyd.Stream<A>, transform$: flyd.Stream<(value: A) => B>): flyd.Stream<B>;
+    ap<A_1>(value$: flyd.Stream<A_1>): <B_1>(transform$: flyd.Stream<(value: A_1) => B_1>) => flyd.Stream<B_1>;
+    chain<T_4, V_2>(accessor: (value: T_4) => flyd.Stream<V_2>): (stream: flyd.Stream<T_4>) => flyd.Stream<V_2>;
+    chain<T_5, V_3>(accessor: (value: T_5) => flyd.Stream<V_3>, stream: flyd.Stream<T_5>): flyd.Stream<V_3>;
+    on<T_6>(onfn: (value: T_6) => void): (stream: flyd.Stream<T_6>) => flyd.Stream<void>;
+    on<T_7>(onfn: (value: T_7) => void, stream: flyd.Stream<T_7>): flyd.Stream<void>;
+    scan<T_8, V_4>(reducer: (acc: T_8, value: V_4) => T_8, initial: T_8, stream: flyd.Stream<V_4>): flyd.Stream<T_8>;
+    scan<T_9, V_5>(reducer: (acc: T_9, value: V_5) => T_9, initial: T_9): (stream: flyd.Stream<V_5>) => flyd.Stream<T_9>;
+    scan<T_10, V_6>(reducer: (acc: T_10, value: V_6) => T_10): (initial: T_10) => (stream: flyd.Stream<V_6>) => flyd.Stream<T_10>;
+    merge<T_11, V_7>(stream1: flyd.Stream<T_11>, stream2: flyd.Stream<V_7>): flyd.Stream<T_11 | V_7>;
+    merge<T_12>(stream1: flyd.Stream<T_12>): <V_8>(stream2: flyd.Stream<V_8>) => flyd.Stream<T_12 | V_8>;
+    transduce<T_13, V_9>(mapfn: Function, stream: flyd.Stream<T_13>): flyd.Stream<V_9>;
+    transduce<T_14, V_10>(mapfn: Function): (stream: flyd.Stream<T_14>) => flyd.Stream<V_10>;
+    fromPromise<T_15>(promise: PromiseLike<T_15>): flyd.Stream<T_15>;
+    flattenPromise<T_16>(promise$: flyd.Stream<PromiseLike<T_16>>): flyd.Stream<T_16>;
+    curryN(length: number, fn: (...args: any[]) => void): Function;
+};
+export default _default;
+//# sourceMappingURL=stream.d.ts.map
