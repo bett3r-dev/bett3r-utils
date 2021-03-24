@@ -9,6 +9,7 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
+    "@tomasruizr/flyd": "^0.3.4",
     "@types/chai": "^4.2.15",
     "@types/crocks": "https://github.com/tomasruizr/types-crocks.git",
     "@types/mocha": "^8.2.1",
@@ -19,12 +20,15 @@
     "mocha": "^8.3.2",
     "nyc": "^15.1.0",
     "rambda": "^6.5.3",
+    "simple-transducers": "https://github.com/bett3r-dev/simple-transducers",
     "sinon": "^9.2.4",
     "ts-mocha": "^8.0.0",
     "typescript": "^4.2.3"
   },
   "peerDependencies": {
+    "@tomasruizr/flyd": "^0.3.4",
     "crocks": "^0.12.4",
-    "rambda": "^6.5.3"
+    "rambda": "^6.5.3",
+    "simple-transducers": "https://github.com/bett3r-dev/simple-transducers"
   }
 }

@@ -241,6 +241,11 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
+"@tomasruizr/flyd@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@tomasruizr/flyd/-/flyd-0.3.4.tgz#e1443ebd6a53db2cd6e264ade07cef1d27b867f7"
+  integrity sha512-R6NO79yTg9Ym7DzoduRrtzlGmuoAyhj5+nbLRuhqUWskwmSwycL8OvWb5NmMATfooSx7GbRS/dzBhOEi+1TAQA==
+
 "@types/chai@^4.2.15":
   version "4.2.15"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.15.tgz#b7a6d263c2cecf44b6de9a051cf496249b154553"
@@ -1347,6 +1352,10 @@ signal-exit@^3.0.2:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
   integrity sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
+
+"simple-transducers@https://github.com/bett3r-dev/simple-transducers":
+  version "1.0.0"
+  resolved "https://github.com/bett3r-dev/simple-transducers#0662e818418faad8e903ba549da3dab739ab06fe"
 
 sinon@^9.2.4:
   version "9.2.4"
