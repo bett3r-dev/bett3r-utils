@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import {propPath} from './objects';
+import {propPath, reduce, reduceRight} from './objects';
 
 describe( 'objects', function() {
   describe( 'propPath', function() {
@@ -35,6 +35,51 @@ describe( 'objects', function() {
       const result = propPath([ 'a', 'does not exists', 'this one either' ]);
       assert.isFunction( result );
       assert.isUndefined( result( obj ));
+    });
+  });
+  describe( 'reduce', function() {
+    it ('works on arrays', () => {
+      assert.deepEqual( reduce(( acc, val ) => {
+        acc+=val;
+        return acc;
+      }, 0, [1,2,3,4,5]), 15);
+    })
+    it( 'works on Objects', () => {
+      interface example {
+        result:number;
+        keys:string[];
+      };
+      assert.deepEqual( reduce(( acc, val, key ) => {
+        acc.result += val;
+        acc.keys.push( key );
+        return acc;
+      }, { result:0, keys:[]}, {
+        a:1,
+        b:2,
+        c:3,
+        d:4
+      }), {
+        result: 10,
+        keys: [ 'a','b','c','d' ]
+      });
+    });
+  });
+
+  describe( 'reduceRight', function() {
+    it( 'works on Objects', () => {
+      assert.deepEqual( reduceRight(( acc, val, key ) => {
+        acc.result += val;
+        acc.keys.push( key );
+        return acc;
+      }, { result:0, keys:[]}, {
+        a:1,
+        b:2,
+        c:3,
+        d:4
+      }), {
+        result: 10,
+        keys: [ 'd', 'c', 'b', 'a' ]
+      });
     });
   });
 });
