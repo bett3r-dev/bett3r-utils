@@ -1,12 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.reduceRight = exports.reduce = exports.propPath = void 0;
+exports.reduceRight = exports.reduce = exports.inverseAssign = exports.propPath = void 0;
 function propPath(objectPath, obj) {
     if (!obj)
         return (obj) => propPath(objectPath, obj);
     return objectPath.reduce((currentObject, part) => currentObject && currentObject[part], obj);
 }
 exports.propPath = propPath;
+function inverseAssign(patchObj, originalObj) {
+    if (!originalObj)
+        return (originalObj) => inverseAssign(patchObj, originalObj);
+    return Object.assign(originalObj, patchObj);
+}
+exports.inverseAssign = inverseAssign;
 function reduce(reducer, init, collection) {
     if (!collection)
         return (collection) => reduce(reducer, init, collection);

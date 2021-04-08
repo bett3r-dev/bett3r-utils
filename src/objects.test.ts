@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import {propPath, reduce, reduceRight} from './objects';
+import {inverseAssign, propPath, reduce, reduceRight} from './objects';
 
 describe( 'objects', function() {
   describe( 'propPath', function() {
@@ -37,6 +37,15 @@ describe( 'objects', function() {
       assert.isUndefined( result( obj ));
     });
   });
+
+  describe('inverseAssign', function() {
+    it('assigns the left object to the right one', () => {
+      const obj1 = {a:1, b:2, c:3};
+      const obj2 = {a:5, b:6, c:3};
+      assert.deepEqual(inverseAssign(obj2, {...obj1}), Object.assign({}, obj1, obj2))
+    });
+  });
+
   describe( 'reduce', function() {
     it ('works on arrays', () => {
       assert.deepEqual( reduce(( acc, val ) => {

@@ -5,6 +5,13 @@ export function propPath( objectPath: string[], obj?: object ): (any | ((obj:obj
   return objectPath.reduce(( currentObject, part ) => currentObject && currentObject[part], obj );
 }
 
+export function inverseAssign(patchObj: object) : ((originalObj:object) => object);
+export function inverseAssign(patchObj: object, originalObj: object) : object;
+export function inverseAssign(patchObj: object, originalObj?: object): object | Function {
+  if (!originalObj) return (originalObj:object) => inverseAssign(patchObj, originalObj);
+  return Object.assign(originalObj, patchObj);
+}
+
 type Unpack<A> = A extends Array<infer E> ? E : any
 
 export function reduce<VTYPE, RTYPE = any> ( reducer: (acc: RTYPE, curr: Unpack<VTYPE>, key?: string|number) => RTYPE, init: RTYPE, collection: VTYPE ) {
