@@ -9,15 +9,9 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Stream = void 0;
 __exportStar(require("./objects"), exports);
 __exportStar(require("./arrays"), exports);
 __exportStar(require("./crocks"), exports);
 __exportStar(require("./predicates"), exports);
-const stream_1 = __importDefault(require("./stream"));
-exports.Stream = stream_1.default;
 //# sourceMappingURL=index.js.map
