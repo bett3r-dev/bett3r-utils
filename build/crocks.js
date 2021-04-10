@@ -30,8 +30,15 @@ const falsyToEither = (arg) => Either_1.default.of(safe_1.default(crocks_1.isTru
     .chain(maybeToEither_1.default(false));
 exports.falsyToEither = falsyToEither;
 exports.readFile = Async_1.default.fromNode(fs_1.default.readFile);
-function traverse(functor, fn, array) {
-    return array.reduce((acc, item) => acc.map(x => y => x.concat([y])).ap(fn(item)), functor([]));
+function traverse(destFunctor, transformFunction, arrayToTraverse) {
+    if (!transformFunction)
+        return (transformFunction, arrayToTraverse) => traverse(destFunctor, transformFunction, arrayToTraverse);
+    if (!arrayToTraverse)
+        return (arrayToTraverse) => traverse(destFunctor, transformFunction, arrayToTraverse);
+    return arrayToTraverse
+        .reduce((functor, item) => functor
+        .map(traversedArray => transformedItem => traversedArray.concat([transformedItem]))
+        .ap(transformFunction(item)), destFunctor([]));
 }
 exports.traverse = traverse;
 ;

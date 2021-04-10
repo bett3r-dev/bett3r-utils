@@ -3,6 +3,7 @@ import Async from "crocks/Async";
 import Either from "crocks/Either";
 import * as mod from "./crocks";
 import { identity } from "rambda";
+import { Functor } from "crocks/internal";
 
 describe("crocks", function () {
   describe("fromPromise", function () {
@@ -128,14 +129,14 @@ describe("crocks", function () {
   });
 
   describe( 'traverse', function() {
-    it( 'traverses one array of X(semigroup) into a X of an array', ( done ) => {
+    it( 'traverses one array of X(native values) into a point of X', ( done ) => {
       const someAsync = ( x ) => Async(( reject, resolve ) => {
         setTimeout(() => {
           resolve( x * 2 );
         }, 10 );
       });
       mod.traverse( Async.of, someAsync, [ 1,2,3,4 ])
-        .fork(done, ( result ) => {
+        .fork(done, ( result: number[] ) => {
           assert.deepEqual(result, [2,4,6,8])
           done();
         });
@@ -147,6 +148,19 @@ describe("crocks", function () {
         }, 100 );
       });
       mod.traverse( Async.of, x=> x, [ someAsync( 1 ),someAsync( 2 ),someAsync( 3 ),someAsync( 4 ) ])
+        .fork(done, ( result ) => {
+          assert.deepEqual(result, [2,4,6,8])
+          done();
+        });
+    });
+    it( 'traverses one array of X(semigroup) into a X of an array transformed by fn', ( done ) => {
+      const someAsync = asyncInstance =>
+        asyncInstance.chain(x=>Async(( reject, resolve ) => {
+          setTimeout(() => {
+            resolve( x * 2 );
+          }, 100 );
+        }));
+      mod.traverse( Async.of, someAsync, [ Async.of( 1 ), Async.of( 2 ), Async.of( 3 ), Async.of( 4 ) ])
         .fork(done, ( result ) => {
           assert.deepEqual(result, [2,4,6,8])
           done();
