@@ -1,5 +1,7 @@
 import * as flyd from '@tomasruizr/flyd';
+//@ts-ignore
 import filter from '@tomasruizr/flyd/module/filter';
+//@ts-ignore
 import { dropRepeats } from '@tomasruizr/flyd/module/droprepeats';
 export function once <T>( stream$: flyd.Stream<T> ): flyd.Stream<T> {
   return flyd.combine( function ( s$, self ) {
@@ -15,13 +17,14 @@ export function bufferCount<T>( bufferSize: number, bufferEvery: number|flyd.Str
     source = bufferEvery as flyd.Stream<T>;
     bufferEvery = bufferSize;
   }
-  let buffer = [];
-  return flyd.combine( function( source, self ) {
+  let buffer: T[] = [];
+  return flyd.combine( function( source: flyd.Stream<any>, self: flyd.Stream<any> ) {
     buffer.push( source());
     if ( buffer.length === bufferSize ) {
       self( buffer );
       buffer = bufferEvery ? buffer.slice( bufferEvery as number ) : buffer = [];
     }
+  //@ts-ignore
   }, [source]);
 };
 

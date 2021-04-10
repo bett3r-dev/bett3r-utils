@@ -5,9 +5,9 @@ export declare function inverseAssign(patchObj: object, originalObj: object): ob
 declare type Unpack<A> = A extends Array<infer E> ? E : any;
 export declare function reduce<VTYPE, RTYPE = any>(reducer: (acc: RTYPE, curr: Unpack<VTYPE>, key?: string | number) => RTYPE): RTYPE | ((init: RTYPE, collection?: VTYPE) => RTYPE | ((collection: VTYPE) => RTYPE));
 export declare function reduce<VTYPE, RTYPE = any>(reducer: (acc: RTYPE, curr: Unpack<VTYPE>, key?: string | number) => RTYPE, init?: RTYPE): RTYPE | ((collection: VTYPE) => RTYPE);
-export declare function reduce<VTYPE, RTYPE = any>(reducer: (acc: RTYPE, curr: Unpack<VTYPE>, key?: string | number) => RTYPE, init: RTYPE, collection: VTYPE): RTYPE;
+export declare function reduce<VTYPE, RTYPE = any>(reducer: (acc: RTYPE, curr: Unpack<VTYPE>, key?: string | number) => RTYPE, init?: RTYPE, collection?: VTYPE): RTYPE;
 export declare function reduceRight<VTYPE, RTYPE = any>(reducer: (acc: RTYPE, curr: Unpack<VTYPE>, key?: string | number) => RTYPE): RTYPE | ((init: RTYPE, collection?: VTYPE) => RTYPE | ((collection: VTYPE) => RTYPE));
 export declare function reduceRight<VTYPE, RTYPE = any>(reducer: (acc: RTYPE, curr: Unpack<VTYPE>, key?: string | number) => RTYPE, init?: RTYPE): RTYPE | ((collection: VTYPE) => RTYPE);
-export declare function reduceRight<VTYPE, RTYPE = any>(reducer: (acc: RTYPE, curr: Unpack<VTYPE>, key?: string | number) => RTYPE, init: RTYPE, collection: VTYPE): RTYPE;
+export declare function reduceRight<VTYPE, RTYPE = any>(reducer: (acc: RTYPE, curr: Unpack<VTYPE>, key?: string | number) => RTYPE, init?: RTYPE, collection?: VTYPE): RTYPE;
 export {};
 //# sourceMappingURL=objects.d.ts.map

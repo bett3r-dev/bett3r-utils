@@ -24,7 +24,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getReadOnly = exports.skip = exports.bufferCount = exports.once = void 0;
 const flyd = __importStar(require("@tomasruizr/flyd"));
+//@ts-ignore
 const filter_1 = __importDefault(require("@tomasruizr/flyd/module/filter"));
+//@ts-ignore
 const droprepeats_1 = require("@tomasruizr/flyd/module/droprepeats");
 function once(stream$) {
     return flyd.combine(function (s$, self) {
@@ -46,6 +48,7 @@ function bufferCount(bufferSize, bufferEvery, source) {
             self(buffer);
             buffer = bufferEvery ? buffer.slice(bufferEvery) : buffer = [];
         }
+        //@ts-ignore
     }, [source]);
 }
 exports.bufferCount = bufferCount;

@@ -27,7 +27,7 @@ export function unshift <T>( value: any, list?: Array<T> ): Array<T>|Function {
 
 export function findAndPerform <T,V>( predicate: (element: any) => any ): (iterable: Iterable<T>) => V;
 export function findAndPerform <T,V>( predicate: (element: any) => any, iterable: Iterable<T> ): V;
-export function findAndPerform <T,V>( predicate: (element: any) => any, iterable?: Iterable<T> ): V|Function {
+export function findAndPerform <T,V>( predicate: (element: any) => any, iterable?: Iterable<T> ): V|Function|undefined {
   if ( !iterable ) return (iterable: Iterable<T>) => findAndPerform( predicate, iterable );
   for ( const item of iterable ) {
     const result = predicate( item );

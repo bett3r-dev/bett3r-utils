@@ -37,7 +37,7 @@ function traverse(destFunctor, transformFunction, arrayToTraverse) {
         return (arrayToTraverse) => traverse(destFunctor, transformFunction, arrayToTraverse);
     return arrayToTraverse
         .reduce((functor, item) => functor
-        .map(traversedArray => transformedItem => traversedArray.concat([transformedItem]))
+        .map((traversedArray) => (transformedItem) => traversedArray.concat([transformedItem]))
         .ap(transformFunction(item)), destFunctor([]));
 }
 exports.traverse = traverse;
