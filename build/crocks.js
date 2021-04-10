@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.traverse = exports.readFile = exports.falsyToEither = exports.falsyToAsync = exports.nullableToEither = exports.nullableToAsync = exports.ensureAsync = exports.promiseToAsync = void 0;
+exports.traverseObject = exports.traverse = exports.readFile = exports.falsyToEither = exports.falsyToAsync = exports.nullableToEither = exports.nullableToAsync = exports.ensureAsync = exports.promiseToAsync = void 0;
 const fs_1 = __importDefault(require("fs"));
 const Async_1 = __importDefault(require("crocks/Async"));
 const Either_1 = __importDefault(require("crocks/Either"));
@@ -42,4 +42,14 @@ function traverse(destFunctor, transformFunction, arrayToTraverse) {
 }
 exports.traverse = traverse;
 ;
+function traverseObject(destFunctor, transformFunction, objOfFunctors) {
+    if (!transformFunction)
+        return (transformFunction, objOfFunctors) => traverseObject(destFunctor, transformFunction, objOfFunctors);
+    if (!objOfFunctors)
+        return (objOfFunctors) => traverseObject(destFunctor, transformFunction, objOfFunctors);
+    return traverse(destFunctor, transformFunction, Object.values(objOfFunctors))
+        .map((x) => (keys) => rambda_1.reduce((acc, curr, index) => rambda_1.assoc(keys[index], curr, acc), {}, x))
+        .ap(destFunctor(Object.keys(objOfFunctors)));
+}
+exports.traverseObject = traverseObject;
 //# sourceMappingURL=crocks.js.map

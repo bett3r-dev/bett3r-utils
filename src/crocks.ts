@@ -5,7 +5,8 @@ import maybeToAsync from 'crocks/Async/maybeToAsync';
 import maybeToEither from 'crocks/Either/maybeToEither';
 import safe from 'crocks/Maybe/safe';
 import { isNil, isTruthy } from 'crocks';
-import { compose, not } from 'rambda';
+import { assoc, compose, not, reduce } from 'rambda';
+import { Functor } from 'crocks/internal';
 
 export const promiseToAsync = (promise: Promise<any>) => Async(( reject, resolve ) => promise.then( resolve, reject ));
 
@@ -45,3 +46,16 @@ export function traverse<R>( destFunctor: (arg:any) => R, transformFunction?: (a
       destFunctor([])
     );
 };
+
+export function traverseObject<R extends {map:Function}>( destFunctor: (arg:any) => R): (transformFunction: (arg:any) => R, objOfFunctors?: object) => R | ((objOfFunctors: object ) => R)
+export function traverseObject<R extends {map:Function}>( destFunctor: (arg:any) => R, transformFunction:(arg:any)=> any): ( objOfFunctors: object ) => R
+export function traverseObject<R extends {map:Function}>( destFunctor: (arg:any) => R, transformFunction:(arg:any)=> any, objOfFunctors: object): R
+export function traverseObject<R extends {map:Function}>( destFunctor: (arg:any) => R, transformFunction?:(arg:any)=> any, objOfFunctors?: object):R | Function {
+  if (!transformFunction) return (transformFunction: (arg:any) => R, objOfFunctors?: any[] ): R| Function => traverseObject(destFunctor, transformFunction, objOfFunctors);
+  if (!objOfFunctors) return ( objOfFunctors: any[] ): R | Function => traverseObject(destFunctor, transformFunction, objOfFunctors);
+  return traverse<R>( destFunctor, transformFunction, Object.values( objOfFunctors ))
+    .map((x: any[]) => (keys: string[]) =>
+      reduce(( acc, curr, index )=> assoc( keys[index], curr, acc ) , {}, x)
+    )
+    .ap(destFunctor(Object.keys( objOfFunctors ))) ;
+}

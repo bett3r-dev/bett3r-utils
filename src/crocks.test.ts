@@ -4,6 +4,7 @@ import Either from "crocks/Either";
 import * as mod from "./crocks";
 import { identity } from "rambda";
 import { Functor } from "crocks/internal";
+import Identity from "crocks/Identity";
 
 describe("crocks", function () {
   describe("fromPromise", function () {
@@ -167,4 +168,24 @@ describe("crocks", function () {
         });
     });
   });
+
+  describe( 'traverseObject', function() {
+    it( 'traverses the values of an object of Identity', () => {
+      const obj = { a: Identity.of( 34 ), b:Identity.of( 35 ), c:Identity.of( 36 ) };
+      const res = mod.traverseObject( Identity.of, identity, obj );
+      assert.equal( res.type(), 'Identity' );
+      assert.deepEqual( res.valueOf(), { a:34, b:35, c:36 });
+    });
+    it( 'traverses the values of an object of Async', done => {
+      const obj = { a: Async.of( 34 ), b:Async.of( 35 ), c:Async.of( 36 ) };
+      const res = mod.traverseObject( Async.of, identity, obj );
+      assert.equal( res.type(), 'Async' );
+      res
+        .map( result=> {
+          assert.deepEqual( result, { a:34, b:35, c:36 });
+          return result;
+        })
+        .fork( done, ()=> done());
+    });
+  })
 });

@@ -10,4 +10,13 @@ export declare const readFile: import("crocks/internal").VariadicFunction<Async<
 export declare function traverse<R>(destFunctor: (arg: any) => R): (transformFunction: (arg: any) => R, arrayToTraverse?: any[]) => R | ((arrayToTraverse: any[]) => R);
 export declare function traverse<R>(destFunctor: (arg: any) => R, transformFunction: (arg: any) => R): (arrayToTraverse: any[]) => R;
 export declare function traverse<R>(destFunctor: (arg: any) => R, transformFunction: (arg: any) => R, arrayToTraverse: any[]): R;
+export declare function traverseObject<R extends {
+    map: Function;
+}>(destFunctor: (arg: any) => R): (transformFunction: (arg: any) => R, objOfFunctors?: object) => R | ((objOfFunctors: object) => R);
+export declare function traverseObject<R extends {
+    map: Function;
+}>(destFunctor: (arg: any) => R, transformFunction: (arg: any) => any): (objOfFunctors: object) => R;
+export declare function traverseObject<R extends {
+    map: Function;
+}>(destFunctor: (arg: any) => R, transformFunction: (arg: any) => any, objOfFunctors: object): R;
 //# sourceMappingURL=crocks.d.ts.map
