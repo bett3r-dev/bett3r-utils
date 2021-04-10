@@ -251,9 +251,9 @@
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.15.tgz#b7a6d263c2cecf44b6de9a051cf496249b154553"
   integrity sha512-rYff6FI+ZTKAPkJUoyz7Udq3GaoDZnxYDEvdEdFZASiA7PoErltHezDishqQiSDWrGxvxmplH304jyzQmjp0AQ==
 
-"@types/crocks@https://github.com/tomasruizr/types-crocks.git":
+"@types/crocks@https://github.com/tomasruizr/types-crocks.git#typeRedefinition":
   version "0.12.3"
-  resolved "https://github.com/tomasruizr/types-crocks.git#d02cc80eea1040c5a58bbf5974fa4720739cd887"
+  resolved "https://github.com/tomasruizr/types-crocks.git#045d459bbfffd228824fa9e668ecdb06504a24da"
 
 "@types/json5@^0.0.29":
   version "0.0.29"
