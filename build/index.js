@@ -18,6 +18,7 @@ __exportStar(require("./objects"), exports);
 __exportStar(require("./arrays"), exports);
 __exportStar(require("./crocks"), exports);
 __exportStar(require("./predicates"), exports);
+__exportStar(require("./functions"), exports);
 var stream_1 = require("./stream");
 Object.defineProperty(exports, "Stream", { enumerable: true, get: function () { return __importDefault(stream_1).default; } });
 //# sourceMappingURL=index.js.map

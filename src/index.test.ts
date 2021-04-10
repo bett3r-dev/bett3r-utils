@@ -9,6 +9,7 @@ describe("index", function () {
     // bett3r-utils
     assert.exists(mod.ensureArray)
     assert.exists(mod.ensureAsync)
+    assert.exists(mod.I)
 
   });
 });
