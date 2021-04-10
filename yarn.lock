@@ -253,7 +253,7 @@
 
 "@types/crocks@https://github.com/tomasruizr/types-crocks.git#typeRedefinition":
   version "0.12.3"
-  resolved "https://github.com/tomasruizr/types-crocks.git#045d459bbfffd228824fa9e668ecdb06504a24da"
+  resolved "https://github.com/tomasruizr/types-crocks.git#790682f004ed0ddc0291169f056c1578b37b57b8"
 
 "@types/json5@^0.0.29":
   version "0.0.29"
