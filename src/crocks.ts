@@ -10,9 +10,18 @@ import { Functor } from 'crocks/internal';
 
 export const promiseToAsync = (promise: Promise<any>) => Async(( reject, resolve ) => promise.then( resolve, reject ));
 
-export const ensureAsync = ( possibleAsync?: any ) =>
-  possibleAsync?.type && possibleAsync.type() === 'Async' ? possibleAsync :
-    (( !possibleAsync || !possibleAsync.then ) ? Async.of(possibleAsync) : promiseToAsync( possibleAsync ));
+declare type InferRight<T> = T extends Async<any, infer U> ? U : T extends PromiseLike<infer U> ? U : T;
+declare type InferLeft<T> = T extends Async<infer U, any> ? U : T extends PromiseLike<any> ? Error : any;
+export const ensureAsync = <T>( possibleAsync?: T ): Async<InferLeft<T>, InferRight<T>> =>
+  safe(x => !!x, possibleAsync)
+    .either(
+      () => Async.of(undefined),
+      (possibleAsync) => {
+        if (possibleAsync.type && possibleAsync.type() === 'Async') return possibleAsync;
+        else if ( !possibleAsync || !possibleAsync.then ) return Async.of(possibleAsync);
+        return promiseToAsync( possibleAsync );
+      }
+    )
 
 export const nullableToAsync = <L,R>(arg?: any): Async<L,R> =>
   Async.of(safe(compose(not, isNil), arg))

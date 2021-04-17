@@ -14,8 +14,14 @@ const crocks_1 = require("crocks");
 const rambda_1 = require("rambda");
 const promiseToAsync = (promise) => Async_1.default((reject, resolve) => promise.then(resolve, reject));
 exports.promiseToAsync = promiseToAsync;
-const ensureAsync = (possibleAsync) => possibleAsync?.type && possibleAsync.type() === 'Async' ? possibleAsync :
-    ((!possibleAsync || !possibleAsync.then) ? Async_1.default.of(possibleAsync) : exports.promiseToAsync(possibleAsync));
+const ensureAsync = (possibleAsync) => safe_1.default(x => !!x, possibleAsync)
+    .either(() => Async_1.default.of(undefined), (possibleAsync) => {
+    if (possibleAsync.type && possibleAsync.type() === 'Async')
+        return possibleAsync;
+    else if (!possibleAsync || !possibleAsync.then)
+        return Async_1.default.of(possibleAsync);
+    return exports.promiseToAsync(possibleAsync);
+});
 exports.ensureAsync = ensureAsync;
 const nullableToAsync = (arg) => Async_1.default.of(safe_1.default(rambda_1.compose(rambda_1.not, crocks_1.isNil), arg))
     .chain(maybeToAsync_1.default(null));
