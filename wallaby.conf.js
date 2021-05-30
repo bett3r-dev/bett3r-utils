@@ -15,6 +15,10 @@ module.exports = function (w) {
     env: {
       type: 'node'
     },
+    hints: {
+      // or /istanbul ignore next/, or any RegExp
+      ignoreCoverage: /istanbul ignore next/
+    },
     // testFramework: 'mocha',
     runMode: 'onsave'
   };
