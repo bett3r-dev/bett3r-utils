@@ -1360,7 +1360,7 @@ signal-exit@^3.0.2:
 
 "simple-transducers@https://github.com/bett3r-dev/simple-transducers":
   version "1.0.0"
-  resolved "https://github.com/bett3r-dev/simple-transducers#d483c5b2e0313a67509062c1321b9f5eb16eb5ad"
+  resolved "https://github.com/bett3r-dev/simple-transducers#879b63f0f2f02da23dccd1d9b544d1eae47a6cca"
 
 sinon@^9.2.4:
   version "9.2.4"
