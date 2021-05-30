@@ -43,7 +43,7 @@ describe("crocks", function () {
       asyncArray.push(mod.ensureAsync(obj));
       asyncArray.push(mod.ensureAsync(und));
       mod.traverse(Async.of, identity, asyncArray)
-        .fork(done, res => {
+        .fork(done, (res: any[]) => {
           assert.deepEqual(res, [345, '345', [345], {n:345}, undefined])
           done();
         })
@@ -55,37 +55,6 @@ describe("crocks", function () {
         assert.equal(res, '2');
         done();
       })
-    });
-  });
-  describe( 'falsyToAsync', function() {
-    it( 'returns rejected async of condition', done => {
-      assert.isTrue( mod.falsyToAsync([].length ).type() === 'Async');
-      mod.falsyToAsync( [].length )
-        .fork(() => done(), () => done(Error('Not ok')) );
-    });
-    it( 'returns async of anything', () => {
-      assert.isTrue( mod.falsyToAsync(['hola'].length ).type() === 'Async');
-      mod.falsyToAsync(['hola'].length )
-        .fork( identity, () => assert( true ));
-      Async.of( true )
-        .chain( mod.falsyToAsync )
-        .fork( () => assert( false ), () => assert( true ));
-    });
-  });
-
-  describe( 'falsyToEither', function() {
-    it( 'returns rejected Either of condition', done => {
-      assert.isTrue( mod.falsyToEither([].length ).type() === 'Either');
-      mod.falsyToEither( [].length )
-        .either(() => done(), () => done(Error('Not ok')) );
-    });
-    it( 'returns Either of anything', () => {
-      assert.isTrue( mod.falsyToEither(['hola'].length ).type() === 'Either');
-      mod.falsyToEither(['hola'].length )
-        .either( identity, () => assert( true ));
-      Either.of( true )
-        .chain( mod.falsyToEither )
-        .either( () => assert( false ), () => assert( true ));
     });
   });
 
@@ -131,7 +100,7 @@ describe("crocks", function () {
 
   describe( 'traverse', function() {
     it( 'traverses one array of X(native values) into a point of X', ( done ) => {
-      const someAsync = ( x ) => Async(( reject, resolve ) => {
+      const someAsync = ( x:number ) => Async(( reject, resolve ) => {
         setTimeout(() => {
           resolve( x * 2 );
         }, 10 );
@@ -143,26 +112,26 @@ describe("crocks", function () {
         });
     });
     it( 'traverses one array of X(semigroup) into a X of an array', ( done ) => {
-      const someAsync = ( x ) => Async(( reject, resolve ) => {
+      const someAsync = ( x:number ) => Async(( reject, resolve ) => {
         setTimeout(() => {
           resolve( x * 2 );
         }, 100 );
       });
       mod.traverse( Async.of, x=> x, [ someAsync( 1 ),someAsync( 2 ),someAsync( 3 ),someAsync( 4 ) ])
-        .fork(done, ( result ) => {
+        .fork(done, ( result: number[] ) => {
           assert.deepEqual(result, [2,4,6,8])
           done();
         });
     });
     it( 'traverses one array of X(semigroup) into a X of an array transformed by fn', ( done ) => {
-      const someAsync = asyncInstance =>
-        asyncInstance.chain(x=>Async(( reject, resolve ) => {
+      const someAsync = (asyncInstance:Async<any, number>) =>
+        asyncInstance.chain((x:number)=>Async(( reject, resolve ) => {
           setTimeout(() => {
             resolve( x * 2 );
           }, 100 );
         }));
       mod.traverse( Async.of, someAsync, [ Async.of( 1 ), Async.of( 2 ), Async.of( 3 ), Async.of( 4 ) ])
-        .fork(done, ( result ) => {
+        .fork(done, ( result:number[] ) => {
           assert.deepEqual(result, [2,4,6,8])
           done();
         });

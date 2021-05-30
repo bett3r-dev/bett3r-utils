@@ -4,16 +4,18 @@ import Either from 'crocks/Either';
 import maybeToAsync from 'crocks/Async/maybeToAsync';
 import maybeToEither from 'crocks/Either/maybeToEither';
 import safe from 'crocks/Maybe/safe';
-import { isNil, isTruthy } from 'crocks';
+import { isNil } from 'crocks/predicates';
+import { identity } from 'crocks/combinators';
 import { assoc, compose, not, reduce } from 'rambda';
-import { Functor } from 'crocks/internal';
 
 export const promiseToAsync = (promise: Promise<any>) => Async(( reject, resolve ) => promise.then( resolve, reject ));
+
+export const I = identity;
 
 declare type InferRight<T> = T extends Async<any, infer U> ? U : T extends PromiseLike<infer U> ? U : T;
 declare type InferLeft<T> = T extends Async<infer U, any> ? U : T extends PromiseLike<any> ? Error : any;
 export const ensureAsync = <T>( possibleAsync?: T ): Async<InferLeft<T>, InferRight<T>> =>
-  safe(x => !!x, possibleAsync)
+  safe((x: T) => !!x, possibleAsync)
     .either(
       () => Async.of(undefined),
       (possibleAsync) => {
@@ -30,14 +32,6 @@ export const nullableToAsync = <L,R>(arg?: any): Async<L,R> =>
 export const nullableToEither = <L,R>(arg?: any): Either<L,R> =>
   Either.of(safe(compose(not, isNil), arg))
     .chain(maybeToEither(null))
-
-export const falsyToAsync = <L,R>(arg?: any) : Async<L,R> =>
-  Async.of(safe(isTruthy, arg))
-    .chain(maybeToAsync(false))
-
-export const falsyToEither = <L,R>(arg?: any) : Either<L,R> =>
-  Either.of(safe(isTruthy, arg))
-    .chain(maybeToEither(false))
 
 export const readFile = Async.fromNode(fs.readFile as any);
 
