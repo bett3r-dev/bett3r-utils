@@ -29,7 +29,6 @@ export function bufferCount<T>( bufferSize: number, bufferEvery: number|flyd.Str
 };
 
 export function skip <T>( count: number, stream: flyd.Stream<T> ) : flyd.Stream<T> | ((stream:flyd.Stream<T>) => flyd.Stream<T>|Function) {
-  if (!stream) return (stream : flyd.Stream<T>) => skip(count, stream);
   return flyd.combine( function( s, self ) {
     if ( count <= 0 ) {
       self( s());
