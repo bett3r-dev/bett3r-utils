@@ -54,8 +54,6 @@ function bufferCount(bufferSize, bufferEvery, source) {
 exports.bufferCount = bufferCount;
 ;
 function skip(count, stream) {
-    if (!stream)
-        return (stream) => skip(count, stream);
     return flyd.combine(function (s, self) {
         if (count <= 0) {
             self(s());
