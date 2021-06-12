@@ -19,7 +19,7 @@ module.exports = function (w) {
       // or /istanbul ignore next/, or any RegExp
       ignoreCoverage: /istanbul ignore next/
     },
-    // testFramework: 'mocha',
+    testFramework: 'mocha',
     runMode: 'onsave'
   };
 };
