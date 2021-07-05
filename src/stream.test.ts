@@ -1,8 +1,9 @@
-import { curry, compose } from 'rambda';
-import { assert } from 'chai';
-import t from 'simple-transducers';
-import sinon from 'sinon';
+import { compose, curry } from 'rambda';
+
 import Stream from './stream';
+import { assert } from 'chai';
+import sinon from 'sinon';
+import t from 'simple-transducers';
 
 describe( 'Streams', function() {
   const { stream, map, filter, scan, on, once, transduce, combine, immediate, chain, ap, fromPromise, flattenPromise, bufferCount, skip, getReadOnly } = Stream;
