@@ -23,11 +23,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getReadOnly = exports.skip = exports.bufferCount = exports.once = void 0;
-const flyd = __importStar(require("@tomasruizr/flyd"));
+const flyd = __importStar(require("@bett3r-dev/flyd"));
 //@ts-ignore
-const filter_1 = __importDefault(require("@tomasruizr/flyd/module/filter"));
+const droprepeats_1 = require("@bett3r-dev/flyd/module/droprepeats");
 //@ts-ignore
-const droprepeats_1 = require("@tomasruizr/flyd/module/droprepeats");
+const filter_1 = __importDefault(require("@bett3r-dev/flyd/module/filter"));
 function once(stream$) {
     return flyd.combine(function (s$, self) {
         self(s$());

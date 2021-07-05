@@ -1,8 +1,10 @@
-import * as flyd from '@tomasruizr/flyd';
+import * as flyd from '@bett3r-dev/flyd';
+
 //@ts-ignore
-import filter from '@tomasruizr/flyd/module/filter';
+import { dropRepeats } from '@bett3r-dev/flyd/module/droprepeats';
 //@ts-ignore
-import { dropRepeats } from '@tomasruizr/flyd/module/droprepeats';
+import filter from '@bett3r-dev/flyd/module/filter';
+
 export function once <T>( stream$: flyd.Stream<T> ): flyd.Stream<T> {
   return flyd.combine( function ( s$, self ) {
     self( s$());
@@ -42,7 +44,7 @@ export function getReadOnly <T>( originalStream: flyd.Stream<T> ){
   return flyd.combine( x=>x(), [originalStream]);
 }
 
-declare type S = typeof import('@tomasruizr/flyd');
+declare type S = typeof import('@bett3r-dev/flyd');
 export interface Stream extends S {
   filter: typeof filter
   dedupe: typeof dropRepeats

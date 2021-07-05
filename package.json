@@ -10,7 +10,6 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@tomasruizr/flyd": "^0.3.4",
     "@types/chai": "^4.2.19",
     "@types/crocks": "https://github.com/tomasruizr/types-crocks.git",
     "@types/mocha": "^8.2.1",
@@ -18,19 +17,21 @@
     "@types/sinon": "^10.0.2",
     "chai": "^4.3.3",
     "crocks": "^0.12.4",
-    "husky": "^6.0.0",
-    "mocha": "^9.0.1",
+    "husky": "^7.0.0",
+    "mocha": "^9.0.2",
     "nyc": "^15.1.0",
     "rambda": "^6.5.3",
-    "simple-transducers": "https://github.com/bett3r-dev/simple-transducers",
     "sinon": "^11.1.1",
     "ts-mocha": "^8.0.0",
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.5"
   },
   "peerDependencies": {
-    "@tomasruizr/flyd": "^0.3.4",
+    "bett3r-utils": "bett3r-dev/bett3r-utils",
     "crocks": "^0.12.4",
     "rambda": "^6.5.3",
-    "simple-transducers": "https://github.com/bett3r-dev/simple-transducers"
+    "simple-transducers": "bett3r-dev/simple-transducers"
+  },
+  "dependencies": {
+    "@bett3r-dev/flyd": "bett3r-dev/flyd"
   }
 }
