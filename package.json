@@ -4,8 +4,10 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "license": "UNLICENSED",
+  "private": true,
   "repository": {
-    "url": "git://github.com/bett3r-dev/bett3r-utils.git"
+    "type": "git",
+    "url": "git+https://github.com/bett3r-dev/bett3r-utils.git"
   },
   "scripts": {
     "test": "NODE_ENV=test nyc ts-mocha \"src/{,**/}*.test.ts\" --exit",
