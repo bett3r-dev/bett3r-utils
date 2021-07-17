@@ -1,8 +1,8 @@
 {
-  "name": "bett3r-utils",
+  "name": "@better-dev/bett3r-utils",
   "version": "1.0.0",
   "main": "build/index.js",
-  "license": "MIT",
+  "types": "build/index.d.ts",
   "scripts": {
     "test": "NODE_ENV=test nyc ts-mocha \"src/{,**/}*.test.ts\" --exit",
     "build": "tsc -p tsconfig.build.json",
