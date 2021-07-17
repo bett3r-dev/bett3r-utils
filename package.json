@@ -1,10 +1,9 @@
 {
-  "name": "@better-dev/bett3r-utils",
+  "name": "@bett3r-dev/bett3r-utils",
   "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "license": "UNLICENSED",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bett3r-dev/bett3r-utils.git"
