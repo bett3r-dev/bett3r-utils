@@ -8,6 +8,9 @@
     "type": "git",
     "url": "git+https://github.com/bett3r-dev/bett3r-utils.git"
   },
+  "files": [
+    "build"
+  ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
