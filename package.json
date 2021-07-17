@@ -9,13 +9,12 @@
     "url": "git+https://github.com/bett3r-dev/bett3r-utils.git"
   },
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "test": "NODE_ENV=test nyc ts-mocha \"src/{,**/}*.test.ts\" --exit",
     "build": "tsc -p tsconfig.build.json",
-    "prepublishOnly": "npm run build",
-    "prepare": "husky install"
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
@@ -25,7 +24,6 @@
     "@types/sinon": "^10.0.2",
     "chai": "^4.3.3",
     "crocks": "^0.12.4",
-    "husky": "^7.0.0",
     "mocha": "^9.0.2",
     "nyc": "^15.1.0",
     "rambda": "^6.5.3",
