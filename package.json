@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git+https://github.com/bett3r-dev/bett3r-utils.git"
   },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
+  },
   "scripts": {
     "test": "NODE_ENV=test nyc ts-mocha \"src/{,**/}*.test.ts\" --exit",
     "build": "tsc -p tsconfig.build.json",
