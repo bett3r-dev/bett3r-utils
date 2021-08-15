@@ -203,8 +203,8 @@
 
 "@bett3r-dev/flyd@^0.3.4":
   version "0.3.4"
-  resolved "https://npm.pkg.github.com/download/@bett3r-dev/flyd/0.3.4/f0e01f36e406137340bb9e4ca2c811d446c1f25cffa3dfc7e8d9eb037697022c#4cb18c19bc04b0484e58cb89af766afdc82a15bc"
-  integrity sha512-JfPqhQNU6v83ikS4s7Vn3RrfU44OEYXHjfq+tqQt8/2DwFjeY9vsRqAXR01P3+gYpgBuguizbal4ikTryWjuHA==
+  resolved "https://npm.pkg.github.com/download/@bett3r-dev/flyd/0.3.4/ba3428445e40d863bcfe96671d296b44ef041348292dfa8ef610de7c15569c6c#5c135e90ba4e56704c97b3db435b0824a94a4d82"
+  integrity sha512-KIydA0iaP3M2dLK+z1FzYSYcBELPAfI1PiuviMQZX1y0uo1RxQvWdO0GtUDSV40bWJ6SQYc/4oFaqCahOHQYaw==
 
 "@bett3r-dev/simple-transducers@^1.1.0":
   version "1.1.0"
