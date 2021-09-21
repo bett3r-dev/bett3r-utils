@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import {inverseAssign, propPath, reduce, reduceRight} from './objects';
+import {inverseAssign, map, propPath, reduce, reduceRight} from './objects';
 
 describe( 'objects', function() {
   describe( 'propPath', function() {
@@ -88,6 +88,29 @@ describe( 'objects', function() {
       }), {
         result: 10,
         keys: [ 'd', 'c', 'b', 'a' ]
+      });
+    });
+  });
+
+  describe( 'map', function() {
+    it ('works on arrays', () => {
+      assert.deepEqual( map(( val, index: number ) => {
+        return val + index;
+      }, [1,2,3,4,5]), [1,3,5,7,9]);
+    })
+    it( 'works on Objects', () => {
+      assert.deepEqual( map(( val, key: string ) => {
+        return `${key}${val}`;
+      }, {
+        a:1,
+        b:2,
+        c:3,
+        d:4
+      }), {
+        a:'a1',
+        b:'b2',
+        c:'c3',
+        d:'d4'
       });
     });
   });
