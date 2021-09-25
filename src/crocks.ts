@@ -1,12 +1,14 @@
-import fs from 'fs';
+import fs, {ReadStream} from 'fs';
 import Async from 'crocks/Async';
 import Either from 'crocks/Either';
+import Reader from 'crocks/Reader';
 import maybeToAsync from 'crocks/Async/maybeToAsync';
 import maybeToEither from 'crocks/Either/maybeToEither';
 import safe from 'crocks/Maybe/safe';
 import { isNil } from 'crocks/predicates';
 import { identity } from 'crocks/combinators';
 import { assoc, compose, not, reduce } from 'rambda';
+import {Monad} from 'crocks';
 
 export const promiseToAsync = (promise: Promise<any>) => Async(( reject, resolve ) => promise.then( resolve, reject ));
 
@@ -62,3 +64,6 @@ export function traverseObject<R extends {map:Function}>( destFunctor: (arg:any)
     )
     .ap(destFunctor(Object.keys( objOfFunctors ))) ;
 }
+
+export const withEnv = <ENV, VAL>(fn: (env: ENV) => (val: VAL) => Reader<VAL, ENV>) => (monad: Monad<VAL>) =>
+  Reader.ask<unknown, ENV>(env => monad.chain(val=> fn(env)(val)))
