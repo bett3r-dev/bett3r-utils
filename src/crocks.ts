@@ -14,9 +14,9 @@ export const promiseToAsync = (promise: Promise<any>) => Async(( reject, resolve
 
 export const I = identity;
 
-declare type InferRight<T> = T extends Async<any, infer U> ? U : T extends PromiseLike<infer U> ? U : T;
-declare type InferLeft<T> = T extends Async<infer U, any> ? U : T extends PromiseLike<any> ? Error : any;
-export const ensureAsync = <T>( possibleAsync?: T ): Async<InferLeft<T>, InferRight<T>> =>
+declare type InferRight<T> = T extends Async<infer U> ? U : T extends PromiseLike<infer U> ? U : T;
+declare type InferLeft<T> = T extends Async<any, infer U> ? U : T extends PromiseLike<any> ? Error : any;
+export const ensureAsync = <T>( possibleAsync?: T ): Async<InferRight<T>, InferLeft<T>> =>
   safe((x: T) => !!x, possibleAsync)
     .either(
       () => Async.of(undefined),
@@ -27,7 +27,7 @@ export const ensureAsync = <T>( possibleAsync?: T ): Async<InferLeft<T>, InferRi
       }
     )
 
-export const nullableToAsync = <L,R>(arg?: any): Async<L,R> =>
+export const nullableToAsync = <R,L>(arg?: any): Async<R,L> =>
   Async.of(safe(compose(not, isNil), arg))
     .chain(maybeToAsync(null))
 

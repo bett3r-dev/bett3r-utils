@@ -124,7 +124,7 @@ describe("crocks", function () {
         });
     });
     it( 'traverses one array of X(semigroup) into a X of an array transformed by fn', ( done ) => {
-      const someAsync = (asyncInstance:Async<any, number>) =>
+      const someAsync = (asyncInstance:Async<number>) =>
         asyncInstance.chain((x:number)=>Async(( reject, resolve ) => {
           setTimeout(() => {
             resolve( x * 2 );
