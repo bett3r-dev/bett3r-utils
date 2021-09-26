@@ -5,11 +5,11 @@ export function propPath( objectPath: string[], obj?: object ): (any | ((obj:obj
   return objectPath.reduce(( currentObject:{[key:string]:any}, part ) => currentObject && currentObject[part], obj );
 }
 
-export function inverseAssign(patchObj: object) : ((originalObj:object) => object);
-export function inverseAssign(patchObj: object, originalObj: object) : object;
-export function inverseAssign(patchObj: object, originalObj?: object): object | Function {
-  if (!originalObj) return (originalObj:object) => inverseAssign(patchObj, originalObj);
-  return Object.assign(originalObj, patchObj);
+export function inverseAssign<A extends object, B extends object>(originalObj: A) : ((patchObj: B) => A & B);
+export function inverseAssign<A extends object, B extends object>(originalObj: A, patchObj: B) : A & B;
+export function inverseAssign<A extends object, B extends object>(originalObj: A, patchObj?: B): A & B | ((obj: B) => A & B) {
+  if (!patchObj) return (patchObj: B) => inverseAssign(originalObj, patchObj);
+  return Object.assign({}, originalObj, patchObj);
 }
 
 export interface DictionaryObject<T> {[index: string]: T}

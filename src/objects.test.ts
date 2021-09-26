@@ -42,7 +42,8 @@ describe( 'objects', function() {
     it('assigns the left object to the right one', () => {
       const obj1 = {a:1, b:2, c:3};
       const obj2 = {a:5, b:6, c:3};
-      assert.deepEqual(inverseAssign(obj2, {...obj1}), Object.assign({}, obj1, obj2))
+      assert.deepEqual(inverseAssign(obj1, obj2), Object.assign({}, obj1, obj2))
+      assert.deepEqual(inverseAssign(obj1)(obj2), Object.assign({}, obj1, obj2))
     });
   });
 

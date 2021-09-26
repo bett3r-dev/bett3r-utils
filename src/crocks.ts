@@ -65,5 +65,5 @@ export function traverseObject<R extends {map:Function}>( destFunctor: (arg:any)
     .ap(destFunctor(Object.keys( objOfFunctors ))) ;
 }
 
-export const withEnv = <ENV, VAL>(fn: (env: ENV) => (val: VAL) => Reader<VAL, ENV>) => (monad: Monad<VAL>) =>
-  Reader.ask<unknown, ENV>(env => monad.chain(val=> fn(env)(val)))
+export const withEnv = <ENV, VAL, MONAD extends Monad<VAL>>(fn: (env: ENV) => (val: VAL) => MONAD) => (monad: MONAD) =>
+  Reader.ask((env: ENV) => monad.chain(val=> fn(env)(val)))
