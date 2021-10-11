@@ -3,7 +3,7 @@ import * as mod from './createMonoid';
 
 describe( 'createMonoid', function() {
   let StringArrayConcat: mod.Monoid<string[]>
-  this.beforeEach(() => {
+  beforeEach(() => {
     StringArrayConcat = mod.createMonoid<string[]>('StringArrayConcat', [], (a: string[], b:string[]) => a.concat(b));
   });
 
@@ -48,7 +48,7 @@ describe( 'createMonoid', function() {
   });
   describe('custom equals function', function() {
     let monoid: mod.Monoid<string>
-    this.beforeEach(() => {
+    beforeEach(() => {
       monoid = mod.createMonoid<string>('StringArrayConcat', '', (a, b) => a.concat(b), (a, b) => a.toUpperCase() === b);
     })
     it('returns true if contained values are the same according to equals function', () => {
