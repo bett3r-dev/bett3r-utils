@@ -8,7 +8,8 @@ import safe from 'crocks/Maybe/safe';
 import { isNil } from 'crocks/predicates';
 import { identity } from 'crocks/combinators';
 import { assoc, compose, not, reduce } from 'rambda';
-import {Monad} from 'crocks';
+import {Monad, tryCatch} from 'crocks';
+import Result from 'crocks/Result';
 
 export const promiseToAsync = (promise: Promise<any>) => Async(( reject, resolve ) => promise.then( resolve, reject ));
 
@@ -67,3 +68,7 @@ export function traverseObject<R extends {map:Function}>( destFunctor: (arg:any)
 
 export const withEnv = <ENV, VAL, MONAD extends Monad<VAL>>(fn: (env: ENV) => (val: VAL) => MONAD) => (monad: MONAD) =>
   Reader.ask((env: ENV) => monad.chain(val=> fn(env)(val)))
+
+type JsonParse = <T>(str:string) => Result<T>
+export const jsonParse: JsonParse = tryCatch(JSON.parse)
+    
