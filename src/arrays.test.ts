@@ -1,13 +1,10 @@
-import {assert} from 'chai';
-import Async from 'crocks/Async';
-
+import { assert } from 'chai';
 import {
-  ensureArray,
-  foldMap,
+  ensureArray, findAndPerform, foldMap,
   push,
-  unshift,
-  findAndPerform,
+  unshift
 } from './arrays';
+
 
 describe('arrays', function() {
   describe( 'ensureArray', function() {

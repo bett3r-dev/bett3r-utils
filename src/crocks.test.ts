@@ -1,12 +1,11 @@
+import Async from "@bett3r-dev/crocks/Async";
+import Either from "@bett3r-dev/crocks/Either";
+import Identity from "@bett3r-dev/crocks/Identity";
 import { assert } from "chai";
-import Async from "crocks/Async";
-import Either from "crocks/Either";
-import * as mod from "./crocks";
 import { identity } from "rambda";
-import { Functor } from "crocks/internal";
-import Identity from "crocks/Identity";
+import * as mod from "./crocks";
 
-describe("crocks", function () {
+describe("@bett3r-dev/crocks", function () {
   describe("fromPromise", function () {
     it("Converts a resolved promise to a resolved Async instance", (done) => {
       const p = Promise.resolve("hola");

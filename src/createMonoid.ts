@@ -1,9 +1,9 @@
-import { isNil } from 'crocks/predicates';
-import fl from 'crocks/core/flNames';
-import _equals from 'crocks/core/equals';
-import _inspect from 'crocks/core/inspect';
-import _implements from 'crocks/core/implements';
-import isSameType from 'crocks/core/isSameType';
+import _equals from '@bett3r-dev/crocks/core/equals';
+import fl from '@bett3r-dev/crocks/core/flNames';
+import _implements from '@bett3r-dev/crocks/core/implements';
+import _inspect from '@bett3r-dev/crocks/core/inspect';
+import isSameType from '@bett3r-dev/crocks/core/isSameType';
+import { isNil } from '@bett3r-dev/crocks/predicates';
 
 export interface Monoid<T>{
   (initial?: T): MonoidInstance<T>;

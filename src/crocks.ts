@@ -1,15 +1,10 @@
-import fs, {ReadStream} from 'fs';
-import Async from 'crocks/Async';
-import Either from 'crocks/Either';
-import Reader from 'crocks/Reader';
-import maybeToAsync from 'crocks/Async/maybeToAsync';
-import maybeToEither from 'crocks/Either/maybeToEither';
-import safe from 'crocks/Maybe/safe';
-import { isNil } from 'crocks/predicates';
-import { identity } from 'crocks/combinators';
+import {
+  Async,
+  Either, identity, isNil, maybeToAsync,
+  maybeToEither, Monad, Reader, Result, safe, tryCatch
+} from '@bett3r-dev/crocks';
+import fs from 'fs';
 import { assoc, compose, not, reduce } from 'rambda';
-import {Monad, tryCatch} from 'crocks';
-import Result from 'crocks/Result';
 
 export const promiseToAsync = (promise: Promise<any>) => Async(( reject, resolve ) => promise.then( resolve, reject ));
 
