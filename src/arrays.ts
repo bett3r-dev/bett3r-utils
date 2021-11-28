@@ -36,6 +36,15 @@ export function findAndPerform <T,V>( predicate: (element: any) => any, iterable
   }
 };
 
+export function remove<T>(index: number, length: number) : (array?: T[]) => T[]
+export function remove<T>(index: number, length:number, array: T[]): T[]
+export function remove<T>(index: number, length: number, array?: T[]): T[] | ((array?: T[]) => T[]) {
+  if (!array) return (array: T[]) => remove(index, length, array); 
+  const copy = array.slice(0);
+  copy.splice(index, length);
+  return copy;
+}
+
 export default {
   ensureArray,
   foldMap,

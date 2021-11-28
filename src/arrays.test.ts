@@ -2,7 +2,8 @@ import { assert } from 'chai';
 import {
   ensureArray, findAndPerform, foldMap,
   push,
-  unshift
+  unshift,
+  remove
 } from './arrays';
 
 
@@ -77,4 +78,18 @@ describe('arrays', function() {
     });
   });
 
+  describe('remove', function() {
+    it('returns a copy of the array without 1 element', () => {
+      const original = [1,2,3];
+      const res = remove(1,1, original);
+      expect(original !== res).toBeTruthy();
+      expect(res).toEqual([1,3])
+    });
+    it('returns a copy of the array without 3 element', () => {
+      const original = [1,2,3,4,5];
+      const res = remove(1,3);
+      expect(original !== res(original)).toBeTruthy();
+      expect(res(original)).toEqual([1,5])
+    });
+  });
 });
