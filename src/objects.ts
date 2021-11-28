@@ -1,9 +1,42 @@
+import { isArray, isInteger } from "@bett3r-dev/crocks";
+import {push, remove} from './arrays'
+import {dissoc, assoc, update, prop} from 'rambda'
+
 export function propPath( objectPath: string[] ) : ((obj:object) => any);
 export function propPath( objectPath: string[], obj: object ): any;
 export function propPath( objectPath: string[], obj?: object ): (any | ((obj:object) => any)) {
   if ( !obj ) return (obj: object) => propPath( objectPath, obj );
   return objectPath.reduce(( currentObject:{[key:string]:any}, part ) => currentObject && currentObject[part], obj );
 }
+
+export function dissocPath( objectPath: (string|number)[] ) : ((obj:object) => any);
+export function dissocPath( objectPath: (string|number)[], obj: object ): any
+export function dissocPath( objectPath: (string|number)[], obj?: object ): any {
+  if ( !obj ) return (obj: object) => dissocPath( objectPath, obj );
+  switch (objectPath.length) {
+    case 0:
+      return obj;
+    case 1:
+      return isInteger(objectPath[0]) && isArray(obj) ? remove(objectPath[0], 1, obj) : dissoc(objectPath[0] as string, obj);
+    default:
+      var head = objectPath[0];
+      var tail = Array.prototype.slice.call(objectPath, 1);
+      if (!obj[head]) {
+        return obj;
+      } else if (isInteger(head) && isArray(obj)) {
+        return update(head, dissocPath(tail, obj[head] as object), obj);
+      } else {
+        return assoc(head as string, dissocPath(tail, obj[head]), obj);
+      }
+  }
+}
+
+export function propPush (property:string, obj: Record<string, any[]>): (value:any) => Record<string, any[]>
+export function propPush (property:string, obj: Record<string, any[]>, value:any): Record<string, any[]>
+export function propPush (property:string, obj: Record<string, any[]>, value?:any): Record<string, any[]> |((value:any) => Record<string, any[]>) {
+  if (!value) return (value:any) => propPush(property, obj, value);
+  return assoc(property, push(value, prop(property, obj)), obj)
+} 
 
 export function inverseAssign<A extends object, B extends object>(originalObj: A) : ((patchObj: B) => A & B);
 export function inverseAssign<A extends object, B extends object>(originalObj: A, patchObj: B) : A & B;
@@ -29,14 +62,6 @@ export function map(mapFunction, collection?) {
     .forEach(( key: string ) => result[key] = mapFunction(collection[key], key, collection ) );
   return result;
 }
-// export function map<VTYPE, RTYPE = any>(mapFunction: (element: Unpack<VTYPE>, index: any, collection?: VTYPE) => RTYPE, collection: VTYPE) {
-//   if ( !collection ) return (collection: VTYPE) => map( mapFunction, collection );
-//   if ( Array.isArray( collection )) return collection.map(mapFunction as unknown as (element: Unpack<VTYPE>, index: number, collection: Unpack<VTYPE>[]) => RTYPE);
-//   const result: Record<string, RTYPE> = {};
-//   Object.keys( collection )
-//     .forEach(( key: string ) => result[key] = mapFunction( (collection as {[key:string]: any})[key], key, collection ) );
-//   return result;
-// }
 
 type Unpack<A> = A extends Array<infer E> ? E : A extends Record<string, infer E> ? E : any;
 
