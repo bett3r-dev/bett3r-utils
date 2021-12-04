@@ -1,7 +1,7 @@
 import {
   Async,
   Either, identity, isNil, maybeToAsync,
-  maybeToEither, Monad, Reader, Result, safe, tryCatch
+  maybeToEither, Monad, Pred, Reader, Result, safe, tryCatch, UnaryFunction
 } from '@bett3r-dev/crocks';
 import fs from 'fs';
 import { assoc, compose, not, reduce } from 'rambda';
@@ -23,13 +23,21 @@ export const ensureAsync = <T>( possibleAsync?: T ): Async<InferRight<T>, InferL
       }
     )
 
-export const nullableToAsync = <R,L>(arg?: any): Async<R,L> =>
-  Async.of(safe(compose(not, isNil), arg))
-    .chain(maybeToAsync(null))
+export function safeEither <R>(pred: UnaryFunction<boolean, R> | Pred<any>): (arg: R) => Either<R,R>
+export function safeEither <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg: R): Either<R,R>
+export function safeEither <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg?: R){
+  if (!arg) return (arg: R) => safeEither(pred, arg);
+  return Either.of(safe(pred, arg))
+    .chain(maybeToEither(arg))
+}
 
-export const nullableToEither = <L,R>(arg?: any): Either<L,R> =>
-  Either.of(safe(compose(not, isNil), arg))
-    .chain(maybeToEither(null))
+export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<any>): (arg: R) => Async<R,R>
+export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg: R): Async<R,R>
+export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg?: R){
+  if (!arg) return (arg: R) => safeAsync(pred, arg);
+  return Async.of(safe(pred, arg))
+    .chain(maybeToAsync(arg))
+}
 
 export const readFile = Async.fromNode(fs.readFile as any);
 
