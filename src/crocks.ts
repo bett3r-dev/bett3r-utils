@@ -26,7 +26,7 @@ export const ensureAsync = <T>( possibleAsync?: T ): Async<InferRight<T>, InferL
 export function safeEither <R>(pred: UnaryFunction<boolean, R> | Pred<any>): (arg: R) => Either<R,R>
 export function safeEither <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg: R): Either<R,R>
 export function safeEither <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg?: R){
-  if (!arg) return (arg: R) => safeEither(pred, arg);
+  if (arguments.length === 1) return (arg: R) => safeEither(pred, arg);
   return Either.of(safe(pred, arg))
     .chain(maybeToEither(arg))
 }
@@ -34,7 +34,7 @@ export function safeEither <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg?
 export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<any>): (arg: R) => Async<R,R>
 export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg: R): Async<R,R>
 export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg?: R){
-  if (!arg) return (arg: R) => safeAsync(pred, arg);
+  if (arguments.length === 1) return (arg: R) => safeAsync(pred, arg);
   return Async.of(safe(pred, arg))
     .chain(maybeToAsync(arg))
 }
