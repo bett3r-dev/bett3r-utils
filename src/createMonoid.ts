@@ -1,5 +1,5 @@
 import { isNil } from '@bett3r-dev/crocks';
-import * as _equals from '@bett3r-dev/crocks/core/equals';
+import _equals from '@bett3r-dev/crocks/core/equals';
 import fl from '@bett3r-dev/crocks/core/flNames';
 import _implements from '@bett3r-dev/crocks/core/implements';
 import _inspect from '@bett3r-dev/crocks/core/inspect';
