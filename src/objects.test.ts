@@ -88,6 +88,11 @@ describe( 'objects', function() {
       const res = propPush('arr', original)(4);
       expect(res).toEqual({arr: [1,2,3,4]})
     });
+    it('pushes an element into a non existent array property in an object', () => {
+      const original = {};
+      const res = propPush('arr', original)(4);
+      expect(res).toEqual({arr: [4]})
+    })
   });
 
   describe('inverseAssign', function() {

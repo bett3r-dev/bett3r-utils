@@ -1,6 +1,6 @@
 import { isArray, isInteger } from "@bett3r-dev/crocks";
 import {push, remove} from './arrays'
-import {dissoc, assoc, update, prop} from 'rambda'
+import {dissoc, assoc, update, prop, propOr} from 'rambda'
 
 export function propPath( objectPath: string[] ) : ((obj:object) => any);
 export function propPath( objectPath: string[], obj: object ): any;
@@ -35,7 +35,7 @@ export function propPush (property:string, obj: Record<string, any[]>): (value:a
 export function propPush (property:string, obj: Record<string, any[]>, value:any): Record<string, any[]>
 export function propPush (property:string, obj: Record<string, any[]>, value?:any): Record<string, any[]> |((value:any) => Record<string, any[]>) {
   if (!value) return (value:any) => propPush(property, obj, value);
-  return assoc(property, push(value, prop(property, obj)), obj)
+  return assoc(property, push(value, propOr([], property, obj)), obj)
 } 
 
 export function inverseAssign<A extends object, B extends object>(originalObj: A) : ((patchObj: B) => A & B);
