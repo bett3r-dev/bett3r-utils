@@ -1,10 +1,10 @@
 import {
   Async,
-  Either, identity, isNil, maybeToAsync,
+  Either, identity, maybeToAsync,
   maybeToEither, Monad, Pred, Reader, Result, safe, tryCatch, UnaryFunction
 } from '@bett3r-dev/crocks';
 import fs from 'fs';
-import { assoc, compose, not, reduce } from 'rambda';
+import { assoc, reduce } from 'rambda';
 
 export const promiseToAsync = (promise: Promise<any>) => Async(( reject, resolve ) => promise.then( resolve, reject ));
 
@@ -73,5 +73,5 @@ export const withEnv = <ENV, VAL, MONAD extends Monad<VAL>>(fn: (env: ENV) => (v
   Reader.ask((env: ENV) => monad.chain(val=> fn(env)(val)))
 
 type JsonParse = <T>(str:string) => Result<T>
-export const jsonParse: JsonParse = tryCatch(JSON.parse)
+export const jsonParse: JsonParse = tryCatch((str) => JSON.parse(str))
     
