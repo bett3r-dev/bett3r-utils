@@ -1,6 +1,7 @@
 import {Async, Either, Identity, isNil} from "@bett3r-dev/crocks";
 import { assert } from "chai";
 import { identity } from "rambda";
+import { jsonParse } from ".";
 import * as mod from "./crocks";
 
 describe("@bett3r-dev/crocks", function () {
@@ -154,4 +155,10 @@ describe("@bett3r-dev/crocks", function () {
         .fork( done, ()=> done());
     });
   })
+  describe('jsonParse', () => {
+    it('returns a result ok if json is valid', done =>{
+      jsonParse(`{"name":"tomas"}`)
+        .either(done, () => done());
+    });
+  });
 });
