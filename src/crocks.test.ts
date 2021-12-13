@@ -1,4 +1,5 @@
-import {Async, Either, Identity, isNil} from "@bett3r-dev/crocks";
+import {Async, Either, Identity, isDefined, isNil} from "@bett3r-dev/crocks";
+import {stream} from '@bett3r-dev/flyd' 
 import { assert } from "chai";
 import { identity } from "rambda";
 import { jsonParse } from ".";
@@ -56,7 +57,7 @@ describe("@bett3r-dev/crocks", function () {
     });
   });
 
-  describe( 'nullableToAsync', function() {
+  describe( 'safeAsync', function() {
     it( 'returns rejected async of null', done => {
       assert.isTrue( mod.safeAsync(isNil,  null ).type() === 'Async');
       mod.safeAsync(isNil, null )
@@ -69,29 +70,46 @@ describe("@bett3r-dev/crocks", function () {
     });
     it( 'returns async of anything', done => {
       assert.isTrue( mod.safeAsync(isNil, ['hola'].length ).type() === 'Async');
-      mod.safeAsync(isNil, ['hola'].length )
+      mod.safeAsync(isDefined, ['hola'].length )
         .chain(() => Async.of( true ))
-        .chain( mod.safeAsync(isNil))
+        .chain( mod.safeAsync(isDefined))
+        .bimap(x=> { console.log('111', x); return x; }, x=> { console.log('222', x); return x; },) 
         .fork( () => assert(false, 'El valor no es null'), () => done());
     });
   });
 
-  describe( 'nullableToEither', function() {
-    it( 'returns rejected async of null', done => {
+  describe( 'safeResult', function() {
+    it( 'returns rejected result of null', done => {
+      assert.isTrue( mod.safeResult(isNil, null ).type() === 'Result');
+      mod.safeResult(isNil, null )
+        .either(() => done(), done );
+    });
+    it( 'returns rejected result of undefined', done => {
+      assert.isTrue( mod.safeResult(isNil, undefined ).type() === 'Result');
+      mod.safeResult(isNil, undefined )
+        .either(() => done(), done );
+    });
+    it( 'returns Result of anything', done => {
+      assert.isTrue( mod.safeResult(isDefined, stream()).type() === 'Result');
+      mod.safeResult(isDefined, stream() )
+        .either( () => assert(false, 'El valor no es null'), () => done());
+    });
+  });
+
+  describe( 'safeEither', function() {
+    it( 'returns rejected either of null', done => {
       assert.isTrue( mod.safeEither(isNil, null ).type() === 'Either');
       mod.safeEither(isNil, null )
         .either(() => done(), done );
     });
-    it( 'returns rejected async of undefined', done => {
+    it( 'returns rejected either of undefined', done => {
       assert.isTrue( mod.safeEither(isNil, undefined ).type() === 'Either');
       mod.safeEither(isNil, undefined )
         .either(() => done(), done );
     });
-    it( 'returns async of anything', done => {
-      assert.isTrue( mod.safeEither(isNil,['hola'].length ).type() === 'Either');
-      mod.safeEither(isNil,['hola'].length )
-        .chain(() => Either.of( true ))
-        .chain( mod.safeEither(isNil) )
+    it( 'returns Either of anything', done => {
+      assert.isTrue( mod.safeEither(isDefined, stream()).type() === 'Either');
+      mod.safeEither(isDefined, stream() )
         .either( () => assert(false, 'El valor no es null'), () => done());
     });
   });

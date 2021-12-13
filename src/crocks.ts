@@ -1,7 +1,10 @@
 import {
   Async,
-  Either, identity, maybeToAsync,
-  maybeToEither, Monad, Pred, Reader, Result, safe, tryCatch, UnaryFunction
+  Either, identity, 
+  maybeToAsync,
+  maybeToEither, 
+  maybeToResult,
+  Monad, Pred, Reader, Result, safe, tryCatch, UnaryFunction
 } from '@bett3r-dev/crocks';
 import fs from 'fs';
 import { assoc, reduce } from 'rambda';
@@ -23,6 +26,14 @@ export const ensureAsync = <T>( possibleAsync?: T ): Async<InferRight<T>, InferL
       }
     )
 
+export function safeResult <R>(pred: UnaryFunction<boolean, R> | Pred<any>): (arg: R) => Result<R>
+export function safeResult <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg: R): Result<R>
+export function safeResult <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg?: R){
+  if (arguments.length === 1) return (arg: R) => safeResult(pred, arg);
+  return Result.of(safe(pred, arg))
+    .chain(maybeToResult(arg))
+}
+
 export function safeEither <R>(pred: UnaryFunction<boolean, R> | Pred<any>): (arg: R) => Either<R,R>
 export function safeEither <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg: R): Either<R,R>
 export function safeEither <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg?: R){
@@ -38,8 +49,6 @@ export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg?:
   return Async.of(safe(pred, arg))
     .chain(maybeToAsync(arg))
 }
-
-export const readFile = Async.fromNode(fs.readFile as any);
 
 export function traverse<R>( destFunctor: (arg:any) => R): (transformFunction: (arg:any) => R, arrayToTraverse?: any[]) => R | (( arrayToTraverse: any[] ) => R)
 export function traverse<R>( destFunctor: (arg:any) => R, transformFunction: (arg: any) => R) : ( arrayToTraverse: any[] ) => R
