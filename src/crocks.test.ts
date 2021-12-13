@@ -73,7 +73,6 @@ describe("@bett3r-dev/crocks", function () {
       mod.safeAsync(isDefined, ['hola'].length )
         .chain(() => Async.of( true ))
         .chain( mod.safeAsync(isDefined))
-        .bimap(x=> { console.log('111', x); return x; }, x=> { console.log('222', x); return x; },) 
         .fork( () => assert(false, 'El valor no es null'), () => done());
     });
   });
