@@ -1,9 +1,6 @@
-import { isNil } from '@bett3r-dev/crocks';
-import _equals from '@bett3r-dev/crocks/core/equals';
-import fl from '@bett3r-dev/crocks/core/flNames';
-import _implements from '@bett3r-dev/crocks/core/implements';
-import _inspect from '@bett3r-dev/crocks/core/inspect';
-import isSameType from '@bett3r-dev/crocks/core/isSameType';
+import { isNil, core  } from '@bett3r-dev/crocks';
+
+const { equals: _equals, flNames: fl, implements: _implements, inspect: _inspect , isSameType } = core
 
 export interface Monoid<T>{
   (initial?: T): MonoidInstance<T>;

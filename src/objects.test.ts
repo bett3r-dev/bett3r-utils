@@ -148,7 +148,9 @@ describe( 'objects', function() {
         keys: [ 'd', 'c', 'b', 'a' ]
       });
     });
+    
     it( 'works on Objects with curry', () => {
+      //@ts-ignore
       assert.deepEqual( reduceRight(( acc, val, key ) => {
         acc.result += val;
         acc.keys.push( key );
@@ -175,11 +177,13 @@ describe( 'objects', function() {
       assert.deepEqual( map(( val, key: string ) => {
         return `${key}${val}`;
       })({
+        //@ts-ignore
         a:1,
         b:2,
         c:3,
         d:4
       }), {
+        //@ts-ignore
         a:'a1',
         b:'b2',
         c:'c3',

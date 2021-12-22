@@ -93,6 +93,7 @@ describe( 'Streams', function() {
     const sum = combine( function( x, y, self, changed ) {
       changed.map( s => changeStream({ changed:s === x ? 'x' : 'y', newValue: s(), self: self() }));
       return x() + y();
+      //@ts-ignore
     }, [ x, y ]);
     assert.equal( sum(), 10 );
     x( 12 );
