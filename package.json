@@ -12,8 +12,7 @@
     "build"
   ],
   "scripts": {
-    "build:local": "tsc -p tsconfig.local.json",
-    "prepublishOnly": "npm run build"
+    "build:local": "tsc -p tsconfig.local.json"
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
