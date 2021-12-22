@@ -12,7 +12,7 @@
     "build"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.local.json",
+    "build:local": "tsc -p tsconfig.local.json",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
