@@ -42,9 +42,9 @@ export function safeEither <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg?
     .chain(maybeToEither(arg))
 }
 
-export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<any>): (arg: R) => Async<R,R>
-export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg: R): Async<R,R>
-export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<any>, arg?: R){
+export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<R>): (arg: R) => Async<R,R>
+export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<R>, arg: R): Async<R,R>
+export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<R>, arg?: R){
   if (arguments.length === 1) return (arg: R) => safeAsync(pred, arg);
   return Async.of(safe(pred, arg))
     .chain(maybeToAsync(arg))
