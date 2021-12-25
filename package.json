@@ -12,7 +12,9 @@
     "build"
   ],
   "scripts": {
-    "build:local": "tsc -p tsconfig.local.json"
+    "clean": "git clean -fXd -e \\!node_modules -e \\!node_modules/**/* -e \\!config/*",
+    "prebuild": "yarn clean",
+    "build": "tsc -p tsconfig.local.json"
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
