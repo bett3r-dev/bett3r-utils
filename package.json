@@ -12,7 +12,7 @@
     "build"
   ],
   "scripts": {
-    "clean": "git clean -fXd -e \\!node_modules -e \\!node_modules/**/* -e \\!config/*",
+    "clean": "rm -rf build",
     "prebuild": "yarn clean",
     "build": "tsc -p tsconfig.local.json"
   },
