@@ -1,8 +1,6 @@
 import * as flyd from '@bett3r-dev/flyd';
 
-//@ts-ignore
-import { dropRepeats } from '@bett3r-dev/flyd/module/droprepeats';
-//@ts-ignore
+import dropRepeats from '@bett3r-dev/flyd/module/droprepeats';
 import filter from '@bett3r-dev/flyd/module/filter';
 
 export function once <T>( stream$: flyd.Stream<T> ): flyd.Stream<T> {
