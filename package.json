@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@bett3r-dev/crocks": "^2.0.1",
-    "@bett3r-dev/flyd": "^0.3.4",
+    "@bett3r-dev/flyd": "^0.3.5",
     "@bett3r-dev/simple-transducers": "^1.1.0",
     "rambda": "^6.5.3"
   }
