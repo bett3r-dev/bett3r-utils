@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import {inverseAssign, map, propPath, reduce, reduceRight, dissocPath, propPush} from './objects';
+import {inverseAssign, map, propPath, reduce, reduceRight, dissocPath, propPush, assocPath} from './objects';
 
 describe( 'objects', function() {
   describe( 'propPath', function() {
@@ -35,6 +35,35 @@ describe( 'objects', function() {
       const result = propPath([ 'a', 'does not exists', 'this one either' ]);
       assert.isFunction( result );
       assert.isUndefined( result( obj ));
+    });
+  });
+
+  describe( 'assocPath', function() {
+    const obj = {
+      a:{
+        b:{
+          c:'hello'
+        }
+      }
+    };
+    it( 'calls mSet when all the params are passed', () => {
+      assocPath([ 'a','b','d' ], 4, obj );
+      //@ts-ignore
+      assert.deepEqual( obj, { a:{ b:{ c:'hello', d:4 }}});
+    });
+    it( 'Accepts curried params', () => {
+      const res = assocPath([ 'a','b','d' ], 5 );
+      assert.isFunction( res );
+      res( obj );
+      //@ts-ignore
+      assert.deepEqual( obj, { a:{ b:{ c:'hello', d:5 }}});
+    });
+    it( 'Accepts curried params', () => {
+      const res = assocPath([ 'a','d','b','d' ], 5 );
+      assert.isFunction( res );
+      res( obj );
+      //@ts-ignore
+      assert.deepEqual( obj, { a: { b: { c: 'hello', d: 5 }, d: { b: { d: 5 }}}});
     });
   });
 

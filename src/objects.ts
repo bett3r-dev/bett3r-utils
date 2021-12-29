@@ -9,6 +9,21 @@ export function propPath( objectPath: string[], obj?: object ): (any | ((obj:obj
   return objectPath.reduce(( currentObject:{[key:string]:any}, part ) => currentObject && currentObject[part], obj );
 }
 
+export function assocPath<T>( objectPath: string[], nValue: any): (obj:T) => T  
+export function assocPath<T>( objectPath: string[], nValue: any, obj: T ) : T
+export function assocPath<T>( objectPath: string[], nValue: any, obj?: T ): ((obj:T) => T  ) | T {
+  if ( !obj ) return (obj: T) => assocPath( objectPath, nValue, obj );
+  const path = objectPath.slice( 0 );
+  const lastPath = path.pop();
+  lastPath;
+  const lastPart = path.reduce(( currentObject, part ) => {
+    currentObject[part] = currentObject[part] || {};
+    return currentObject[part];
+  }, obj );
+  lastPart[lastPath] = nValue;
+  return obj;
+}
+
 export function dissocPath( objectPath: (string|number)[] ) : ((obj:object) => any);
 export function dissocPath( objectPath: (string|number)[], obj: object ): any
 export function dissocPath( objectPath: (string|number)[], obj?: object ): any {
