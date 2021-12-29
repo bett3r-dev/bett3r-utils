@@ -12,10 +12,10 @@ export function propPath( objectPath: string[], obj?: object ): (any | ((obj:obj
 export function assocPath<T>( objectPath: string[], nValue: any): (obj:T) => T  
 export function assocPath<T>( objectPath: string[], nValue: any, obj: T ) : T
 export function assocPath<T>( objectPath: string[], nValue: any, obj?: T ): ((obj:T) => T  ) | T {
-  if ( !obj ) return (obj: T) => assocPath( objectPath, nValue, obj );
+  if ( arguments.length !== 3 ) return (obj: T) => assocPath( objectPath, nValue, obj );
+  if (!objectPath.length && typeof nValue === 'object') return nValue;
   const path = objectPath.slice( 0 );
   const lastPath = path.pop();
-  lastPath;
   const lastPart = path.reduce(( currentObject, part ) => {
     currentObject[part] = currentObject[part] || {};
     return currentObject[part];
