@@ -5,7 +5,7 @@ import {dissoc, assoc, update, prop, propOr} from 'rambda'
 export function propPath( objectPath: string[] ) : ((obj:object) => any);
 export function propPath( objectPath: string[], obj: object ): any;
 export function propPath( objectPath: string[], obj?: object ): (any | ((obj:object) => any)) {
-  if ( !obj ) return (obj: object) => propPath( objectPath, obj );
+  if ( arguments.length !== 2 ) return (obj: object) => propPath( objectPath, obj );
   return objectPath.reduce(( currentObject:{[key:string]:any}, part ) => currentObject && currentObject[part], obj );
 }
 
@@ -27,7 +27,7 @@ export function assocPath<T>( objectPath: string[], nValue: any, obj?: T ): ((ob
 export function dissocPath( objectPath: (string|number)[] ) : ((obj:object) => any);
 export function dissocPath( objectPath: (string|number)[], obj: object ): any
 export function dissocPath( objectPath: (string|number)[], obj?: object ): any {
-  if ( !obj ) return (obj: object) => dissocPath( objectPath, obj );
+  if ( arguments.length !== 2 ) return (obj: object) => dissocPath( objectPath, obj );
   switch (objectPath.length) {
     case 0:
       return obj;
@@ -49,7 +49,7 @@ export function dissocPath( objectPath: (string|number)[], obj?: object ): any {
 export function propPush (property:string, obj: Record<string, any[]>): (value:any) => Record<string, any[]>
 export function propPush (property:string, obj: Record<string, any[]>, value:any): Record<string, any[]>
 export function propPush (property:string, obj: Record<string, any[]>, value?:any): Record<string, any[]> |((value:any) => Record<string, any[]>) {
-  if (!value) return (value:any) => propPush(property, obj, value);
+  if ( arguments.length !== 3 ) return (value:any) => propPush(property, obj, value);
   return assoc(property, push(value, propOr([], property, obj)), obj)
 } 
 
