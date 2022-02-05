@@ -46,9 +46,9 @@ export function dissocPath( objectPath: (string|number)[], obj?: object ): any {
   }
 }
 
-export function propPush (property:string, obj: Record<string, any[]>): (value:any) => Record<string, any[]>
-export function propPush (property:string, obj: Record<string, any[]>, value:any): Record<string, any[]>
-export function propPush (property:string, obj: Record<string, any[]>, value?:any): Record<string, any[]> |((value:any) => Record<string, any[]>) {
+export function propPush (property:string, obj: Record<string, any>): (value:any) => Record<string, any[]>
+export function propPush (property:string, obj: Record<string, any>, value:any): Record<string, any[]>
+export function propPush (property:string, obj: Record<string, any>, value?:any): Record<string, any[]> |((value:any) => Record<string, any[]>) {
   if ( arguments.length !== 3 ) return (value:any) => propPush(property, obj, value);
   return assoc(property, push(value, propOr([], property, obj)), obj)
 } 
