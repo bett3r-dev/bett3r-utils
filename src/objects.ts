@@ -1,4 +1,4 @@
-import { isArray, isInteger } from "@bett3r-dev/crocks";
+import { isArray, isDate, isInteger } from "@bett3r-dev/crocks";
 import {push, remove} from './arrays'
 import {dissoc, assoc, update, prop, propOr} from 'rambda'
 
@@ -101,4 +101,27 @@ export function reduceRight<VTYPE, RTYPE = any> ( reducer: (acc: RTYPE, curr: Un
     .reduceRight(( acc, key ) =>
       reducer( acc, (collection as {[key:string]: any})[key], key )
     , init as RTYPE );
+};
+
+export const getObjectDeepDiff = <T extends Record<string, any>>( source: T, other: T ): T => {
+  return Object.keys(other).reduce((result, key: keyof T) => {
+    if (
+      typeof source[key] === "object" &&
+      source[key] !== null &&
+      isDate(source[key]) &&
+      typeof other[key] === "object" &&
+      other[key] !== null &&
+      isDate(other[key])
+    ) {
+      const deep = getObjectDeepDiff(source[key], other[key]);
+      Object.keys(deep).length && ((result[key] as any) = deep);
+    } else if (
+      (source[key] &&
+       isDate(other[key]) &&
+        new Date(source[key]).valueOf() !== new Date(other[key]).valueOf()) ||
+      source[key] !== other[key]
+    )
+      (result[key] as any) = other[key];
+    return result;
+  }, {} as T);
 };
