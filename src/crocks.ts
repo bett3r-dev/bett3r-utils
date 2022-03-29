@@ -9,12 +9,13 @@ import {
 import fs from 'fs';
 import { assoc, reduce } from 'rambda';
 
-export const promiseToAsync = (promise: Promise<any>) => Async(( reject, resolve ) => promise.then( resolve, reject ));
+declare type InferPromise<T> = T extends PromiseLike<infer U> ? U : T
+export const promiseToAsync = <T>(promise: Promise<InferPromise<T>>) => Async<InferPromise<T>>(( reject, resolve ) => promise.then( resolve, reject ));
 
 export const I = identity;
 
-declare type InferRight<T> = T extends Async<infer U> ? U : T extends PromiseLike<infer U> ? U : T;
-declare type InferLeft<T> = T extends Async<any, infer U> ? U : T extends PromiseLike<any> ? Error : any;
+declare type InferRight<T> = T extends Async<infer U> ? U : InferPromise<T>;
+declare type InferLeft<T> = T extends Async<any, infer U> ? U : InferPromise<T>;
 export const ensureAsync = <T>( possibleAsync?: T ): Async<InferRight<T>, InferLeft<T>> =>
   safe((x: T) => !!x, possibleAsync)
     .either(
