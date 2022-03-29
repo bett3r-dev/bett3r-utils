@@ -53,6 +53,13 @@ export function propPush (property:string, obj: Record<string, any>, value?:any)
   return assoc(property, push(value, propOr([], property, obj)), obj)
 } 
 
+export function propPushPath (path:string[], obj: Record<string, any>): (value:any) => Record<string, any[]>
+export function propPushPath (path:string[], obj: Record<string, any>, value:any): Record<string, any[]>
+export function propPushPath (path:string[], obj: Record<string, any>, value?:any): Record<string, any[]> |((value:any) => Record<string, any[]>) {
+  if ( arguments.length !== 3 ) return (value:any) => propPushPath(path, obj, value);
+  return assocPath(path, push(value, propPath(path, obj) || []), obj)
+} 
+
 export function inverseAssign<A extends object, B extends object>(originalObj: A) : ((patchObj: B) => A & B);
 export function inverseAssign<A extends object, B extends object>(originalObj: A, patchObj: B) : A & B;
 export function inverseAssign<A extends object, B extends object>(originalObj: A, patchObj?: B): A & B | ((obj: B) => A & B) {

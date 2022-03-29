@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import {inverseAssign, map, propPath, reduce, reduceRight, dissocPath, propPush, assocPath} from './objects';
+import {inverseAssign, map, propPath, reduce, reduceRight, dissocPath, propPush, assocPath, propPushPath} from './objects';
 
 describe( 'objects', function() {
   describe( 'propPath', function() {
@@ -121,6 +121,19 @@ describe( 'objects', function() {
       const original = {};
       const res = propPush('arr', original)(4);
       expect(res).toEqual({arr: [4]})
+    })
+  });
+
+  describe('propPushPath', function() {
+    it('pushes an element into a nested array', () => {
+      const original = {root:{arr: [1,2,3]}};
+      const res = propPushPath(['root', 'arr'], original)(4);
+      expect(res).toEqual({root:{arr: [1,2,3,4]}})
+    });
+    it('pushes an element into a non existent array property in an object', () => {
+      const original = {};
+      const res = propPushPath(['root', 'arr'], original)(4);
+      expect(res).toEqual({root:{arr: [4]}})
     })
   });
 
