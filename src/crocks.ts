@@ -6,7 +6,6 @@ import {
   maybeToResult,
   Monad, Pred, Reader, Result, safe, tryCatch, UnaryFunction
 } from '@bett3r-dev/crocks';
-import fs from 'fs';
 import { assoc, reduce } from 'rambda';
 
 declare type InferPromise<T> = T extends PromiseLike<infer U> ? U : T
