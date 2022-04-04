@@ -14,7 +14,7 @@
   "scripts": {
     "clean": "rm -rf build",
     "prebuild": "yarn clean",
-    "build": "tsc"
+    "build": "tsc -p tsconfig.build.json"
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
