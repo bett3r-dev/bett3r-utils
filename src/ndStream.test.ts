@@ -12,8 +12,8 @@ describe( 'ndStream', function() {
   });
   it( 'processes a string ending in new line as a full record', done => {
     const docStream = Stream.stream<string>();
-    const results = [];
-    ndStream( docStream ).map( doc => {
+    const results: string[] = [];
+    ndStream( docStream ).map( (doc: string) => {
       results.push( doc );
     });
     docStream( 'hola,pana,mio1\n' );
@@ -28,8 +28,8 @@ describe( 'ndStream', function() {
   });
   it( 'accumulates a string not parseable and waits for the next iteration to complete', done => {
     const docStream = Stream.stream<string>();
-    const results = [];
-    ndStream( docStream ).map( doc => {
+    const results: string[] = [];
+    ndStream( docStream ).map( (doc:string) => {
       results.push( doc );
     });
     docStream( 'hola,pana' );
@@ -44,8 +44,8 @@ describe( 'ndStream', function() {
   });
   it( 'accumulates a string not parseable and waits for the next iteration to complete', done => {
     const docStream = Stream.stream<string>();
-    const results = [];
-    ndStream( docStream ).map( doc => {
+    const results: string[] = [];
+    ndStream( docStream ).map( (doc: string) => {
       results.push( doc );
     });
     docStream( 'hola,pana' );
@@ -79,8 +79,8 @@ describe( 'ndStream', function() {
   });
   it( 'accumulates a string not parseable and waits for the next iteration to complete', done => {
     const docStream = Stream.stream<Record<string, any>>();
-    const results = [];
-    ndStream( docStream, 'message' ).map( doc => {
+    const results: string[] = [];
+    ndStream( docStream, 'message' ).map( (doc: string) => {
       results.push( doc );
     });
     docStream({ message:'hola,pana', socket: { name:'tomas' }});

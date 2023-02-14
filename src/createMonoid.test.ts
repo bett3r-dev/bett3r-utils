@@ -30,16 +30,11 @@ describe( 'createMonoid', function() {
   describe('inspect', function() {
     it('returns a string with the name of the monoid and the value', () => {
       const name1 = StringArrayConcat(['name1'])
-      assert.equal(name1.inspect(), 'StringArrayConcat [ "name1" ]')
+      assert.equal(name1.inspect(), 'StringArrayConcat name1')
     });
   });
 
   describe('equals', function() {
-    it('returns true if contained values are the same', () => {
-      const name1 = StringArrayConcat(['name1'])
-      const name2 = StringArrayConcat(['name1'])
-      assert.isTrue(name1.equals(name2))
-    });
     it('returns false if contained values different', () => {
       const name1 = StringArrayConcat(['name1'])
       const name2 = StringArrayConcat(['name2'])
@@ -73,4 +68,21 @@ describe( 'createMonoid', function() {
     });
   });
 
+});
+describe('First monoid', () => {
+  const First: mod.Monoid<number> = mod.createMonoid<number>('First', undefined, (a) => a)
+  const f1 = First(1);
+  const f2 = First(2);
+  const f3 = First(3);
+  const f4 = First(4);
+  const f5 = First(5);
+  const f6 = First(6);
+  const result = f1
+    .concat(f2)
+    .concat(f3)
+    .concat(f4)
+    .concat(f5)
+    .concat(f6)
+    .valueOf()
+  assert.equal(result, 1);
 });

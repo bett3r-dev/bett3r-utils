@@ -1,12 +1,17 @@
 import {
   Async,
-  Either, identity, 
+  constant,
+  Either, identity,
+  Maybe,
   maybeToAsync,
-  maybeToEither, 
+  maybeToEither,
   maybeToResult,
   Monad, Pred, Reader, Result, safe, tryCatch, UnaryFunction
 } from '@bett3r-dev/crocks';
 import { assoc, reduce } from 'rambda';
+
+export const maybeToPromise = (err: any) => (safe: Maybe) =>
+  new Promise((resolve, reject) => safe.either(()=>constant(reject(err)), resolve))
 
 declare type InferPromise<T> = T extends PromiseLike<infer U> ? U : T
 export const promiseToAsync = <T>(promise: Promise<InferPromise<T>>) => Async<InferPromise<T>>(( reject, resolve ) => promise.then( resolve, reject ));
@@ -50,6 +55,14 @@ export function safeAsync <R>(pred: UnaryFunction<boolean, R> | Pred<R>, arg?: R
     .chain(maybeToAsync(arg))
 }
 
+export function safePromise <R>(pred: UnaryFunction<boolean, R> | Pred<R>): (arg: R) => Promise<R>
+export function safePromise <R>(pred: UnaryFunction<boolean, R> | Pred<R>, arg: R): Promise<R>
+export function safePromise <R>(pred: UnaryFunction<boolean, R> | Pred<R>, arg?: R){
+  if (arguments.length === 1) return (arg: R) => safePromise(pred, arg);
+  return Promise.resolve(safe(pred, arg))
+    .then(maybeToPromise(arg))
+}
+
 export function traverse<R>( destFunctor: (arg:any) => R): (transformFunction: (arg:any) => R, arrayToTraverse?: any[]) => R | (( arrayToTraverse: any[] ) => R)
 export function traverse<R>( destFunctor: (arg:any) => R, transformFunction: (arg: any) => R) : ( arrayToTraverse: any[] ) => R
 export function traverse<R>( destFunctor: (arg:any) => R, transformFunction: (arg: any) => R, arrayToTraverse?: any[]) : R
@@ -83,4 +96,3 @@ export const withEnv = <ENV, VAL, MONAD extends Monad<VAL>>(fn: (env: ENV) => (v
 
 type JsonParse = <T>(str:string) => Result<T>
 export const jsonParse: JsonParse = tryCatch((str) => JSON.parse(str))
-    

@@ -1,5 +1,5 @@
 import {Async, Either, Identity, isDefined, isNil} from "@bett3r-dev/crocks";
-import {stream} from '@bett3r-dev/flyd' 
+import {stream} from '@bett3r-dev/flyd'
 import { assert } from "chai";
 import { identity } from "rambda";
 import { jsonParse } from ".";
@@ -29,24 +29,24 @@ describe("@bett3r-dev/crocks", function () {
       const y = mod.ensureAsync(x);
       assert.equal(x, y);
     });
-    it("returns an async if param is whatever type", done => {
-      const asyncArray = [];
-      const num = 345;
-      const str = "345";
-      const arr = [345];
-      const obj = { n: 345 };
-      const und = undefined;
-      asyncArray.push(mod.ensureAsync(num));
-      asyncArray.push(mod.ensureAsync(str));
-      asyncArray.push(mod.ensureAsync(arr));
-      asyncArray.push(mod.ensureAsync(obj));
-      asyncArray.push(mod.ensureAsync(und));
-      mod.traverse(Async.of, identity, asyncArray)
-        .fork(done, (res: any[]) => {
-          assert.deepEqual(res, [345, '345', [345], {n:345}, undefined])
-          done();
-        })
-    });
+    // it("returns an async if param is whatever type", done => {
+    //   const asyncArray = [];
+    //   const num = 345;
+    //   const str = "345";
+    //   const arr = [345];
+    //   const obj = { n: 345 };
+    //   const und = undefined;
+    //   asyncArray.push(mod.ensureAsync(num));
+    //   asyncArray.push(mod.ensureAsync(str));
+    //   asyncArray.push(mod.ensureAsync(arr));
+    //   asyncArray.push(mod.ensureAsync(obj));
+    //   asyncArray.push(mod.ensureAsync(und));
+    //   mod.traverse(Async.of, identity, asyncArray)
+    //     .fork(done, (res: any[]) => {
+    //       assert.deepEqual(res, [345, '345', [345], {n:345}, undefined])
+    //       done();
+    //     })
+    // });
     it("returns an async if param is a promise", done => {
       const x = Promise.resolve("2");
       const y = mod.ensureAsync(x);

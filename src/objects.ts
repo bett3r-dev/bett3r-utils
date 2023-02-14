@@ -1,6 +1,6 @@
 import { isArray, isDate, isInteger } from "@bett3r-dev/crocks";
-import {push, remove} from './arrays'
-import {dissoc, assoc, update, prop, propOr} from 'rambda'
+import { assoc, dissoc, propOr, update } from 'rambda';
+import { push, remove } from './arrays';
 
 export function propPath( objectPath: string[] ) : ((obj:object) => any);
 export function propPath( objectPath: string[], obj: object ): any;
@@ -9,7 +9,7 @@ export function propPath( objectPath: string[], obj?: object ): (any | ((obj:obj
   return objectPath.reduce(( currentObject:{[key:string]:any}, part ) => currentObject && currentObject[part], obj );
 }
 
-export function assocPath<T>( objectPath: string[], nValue: any): (obj:T) => T  
+export function assocPath<T>( objectPath: string[], nValue: any): (obj:T) => T
 export function assocPath<T>( objectPath: string[], nValue: any, obj: T ) : T
 export function assocPath<T>( objectPath: string[], nValue: any, obj?: T ): ((obj:T) => T  ) | T {
   if ( arguments.length !== 3 ) return (obj: T) => assocPath( objectPath, nValue, obj );
@@ -17,11 +17,11 @@ export function assocPath<T>( objectPath: string[], nValue: any, obj?: T ): ((ob
   const path = objectPath.slice( 0 );
   const lastPath = path.pop();
   const lastPart = path.reduce(( currentObject, part ) => {
-    currentObject[part] = currentObject[part] || {};
-    return currentObject[part];
+    ( currentObject as T )[part] = ( currentObject as T )[part] || {};
+    return ( currentObject as T )[part];
   }, obj );
-  lastPart[lastPath] = nValue;
-  return obj;
+  lastPart[lastPath as string] = nValue;
+  return obj as T;
 }
 
 export function dissocPath( objectPath: (string|number)[] ) : ((obj:object) => any);
@@ -36,12 +36,12 @@ export function dissocPath( objectPath: (string|number)[], obj?: object ): any {
     default:
       var head = objectPath[0];
       var tail = Array.prototype.slice.call(objectPath, 1);
-      if (!obj[head]) {
+      if (!(obj as object)[head]) {
         return obj;
       } else if (isInteger(head) && isArray(obj)) {
         return update(head, dissocPath(tail, obj[head] as object), obj);
       } else {
-        return assoc(head as string, dissocPath(tail, obj[head]), obj);
+        return assoc(head as string, dissocPath(tail, (obj as object)[head]), obj);
       }
   }
 }
@@ -51,14 +51,14 @@ export function propPush (property:string, obj: Record<string, any>, value:any):
 export function propPush (property:string, obj: Record<string, any>, value?:any): Record<string, any[]> |((value:any) => Record<string, any[]>) {
   if ( arguments.length !== 3 ) return (value:any) => propPush(property, obj, value);
   return assoc(property, push(value, propOr([], property, obj)), obj)
-} 
+}
 
 export function propPushPath (path:string[], obj: Record<string, any>): (value:any) => Record<string, any[]>
 export function propPushPath (path:string[], obj: Record<string, any>, value:any): Record<string, any[]>
 export function propPushPath (path:string[], obj: Record<string, any>, value?:any): Record<string, any[]> |((value:any) => Record<string, any[]>) {
   if ( arguments.length !== 3 ) return (value:any) => propPushPath(path, obj, value);
   return assocPath(path, push(value, propPath(path, obj) || []), obj)
-} 
+}
 
 export function inverseAssign<A extends object, B extends object>(originalObj: A) : ((patchObj: B) => A & B);
 export function inverseAssign<A extends object, B extends object>(originalObj: A, patchObj: B) : A & B;
@@ -77,8 +77,9 @@ export function map<T, U>(fn: RecordIterator<T, U>): (iterable: DictionaryObject
 export function map<T>(fn: ArrayIterator<T, T>): (iterable: T[]) => T[];
 export function map<T>(fn: ArrayIterator<T, T>, iterable: T[]): T[];
 export function map(mapFunction, collection?) {
-  if ( !collection ) return (collection) => map( mapFunction, collection );
+  if ( arguments.length === 1 ) return (collection) => map( mapFunction, collection );
   if ( Array.isArray( collection )) return collection.map(mapFunction);
+  if ( !collection ) return collection;
   const result = {};
   Object.keys( collection )
     .forEach(( key: string ) => result[key] = mapFunction(collection[key], key, collection ) );

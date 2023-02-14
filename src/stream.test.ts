@@ -69,20 +69,20 @@ describe( 'Streams', function() {
     const onceStream = once( s );
     on( onSpy, onceStream );
     s( 1 )( 2 )( 4 )( 3 );
-    onSpy.calledOnce;//?
-    onSpy.callCount;//?
-    assert.isTrue( onSpy.calledOnce );//?
+    onSpy.calledOnce;
+    onSpy.callCount;
+    assert.isTrue( onSpy.calledOnce );
     assert.equal( onSpy.args[0][0], 1 );
   });
   it( 'Can transduce the values of a stream', () => {
-    const results = [];
+    const results: number[] = [];
     const s1 = stream();
     const transducer = compose(
       t.map( function( x:number ) { return x * 2; }),
       t.dedupe(),
     );
     transduce( transducer, s1 )
-      .map( data => results.push( data ));
+      .map( (data: number) => results.push( data ));
     s1( 1 )( 1 )( 2 )( 3 )( 3 )( 3 )( 4 )( 2 );
     assert.deepEqual( results, [ 2,4,6,8,4 ]);
   });

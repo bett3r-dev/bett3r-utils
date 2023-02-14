@@ -1,10 +1,13 @@
-import {branch} from '@bett3r-dev/crocks';
 import { assoc, map, prop } from 'rambda';
 import Stream from './stream';
 
-const getLines = ( last:string, row: string ) =>
-  branch(( last + row ).split( '\n' ))
-    .bimap( arr => arr.slice( -1 ), arr => arr.slice( 0,-1 ));
+const getLines = ( last:string, row: string ) =>{
+  const arr = ( last + row ).split( '\n' ); 
+  if (arr.length === 1){
+    return [arr];
+  }
+  return [arr.slice( -1 ), arr.slice( 0,-1 )]
+}
 
 const processData = ( lastIncomplete = '', data: string ) =>
   getLines( lastIncomplete, data );
@@ -12,9 +15,13 @@ const processData = ( lastIncomplete = '', data: string ) =>
 export function ndStream( dataStream: flyd.Stream<string|object>, mapProp?: string ) {
   const resultingStream = Stream.stream();
   let lastIncomplete = '';
-  dataStream.map( data =>lastIncomplete = processData( lastIncomplete,  typeof data === 'object' && mapProp ? prop<string, Record<string, any>>( mapProp, data ) : data as string )
-    .map( map( row => resultingStream( mapProp ? assoc( mapProp, row, data ) : row )))
-    .fst()[0]
-  );
+  dataStream
+    .map( data =>{
+      const arr = processData( lastIncomplete,  typeof data === 'object' && mapProp ? prop<string, Record<string, any>>( mapProp, data ) : data as string );
+      if (arr[1])
+        map((row) =>  resultingStream( mapProp ? assoc( mapProp, row, data ) : row ), arr[1])
+      lastIncomplete = arr[0][0];
+    
+    });
   return resultingStream;
 }
