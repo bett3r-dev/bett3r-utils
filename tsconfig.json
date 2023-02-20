@@ -2,7 +2,7 @@
   "compilerOptions": {
 		"baseUrl": ".",
 		"outDir": "./build",
-		"rootDir": "./",
+		"rootDir": "./src",
     "allowJs": true,
 		"alwaysStrict": false,
 		"checkJs": false,
