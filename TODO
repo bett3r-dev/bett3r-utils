@@ -35,25 +35,3 @@ Not in Ramda:
   ☐ dateDiff 
   ☐ safePromise 
   ☐ ensureArray 
-      
-  // Specifics
-      
-  // Use Flyd
-  Stream 
-  
-  // Belongs to error;
-  dieOnError 
-  
-  // Belongs to schemas
-  mergeMultipleSchemas
-  mergeSchemas 
-  omitFromSchema 
-  
-  // Belongs to endpoint
-  processFetchResponse 
-  parseResponseBody 
-  
-  Belongs to eventsourcing
-  formatStream
-  getIdFromStream 
-  extractIdFromEventStream
