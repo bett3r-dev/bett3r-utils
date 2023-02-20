@@ -24,7 +24,7 @@ Todo:
 Crocks:
   ☐ assign       <-- merge
   ☐ constant     <-- always
-  ☐ isArray      <-- is     
+  ☐ isArray      <-- is     w 
   ☐ isDate       <-- is
   ☐ isDefined    <-- not(isNill) 
   ☐ isInteger    <-- is
