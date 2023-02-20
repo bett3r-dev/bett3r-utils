@@ -1,0 +1,59 @@
+Todo:
+  ☐ assoc
+  ☐ assocPath 
+  ☐ clone
+  ☐ compose
+  ☐ filter
+  ☐ flatten
+  ☐ forEach
+  ☐ inverseAssign <-- merge
+  ☐ map 
+  ☐ merge
+  ☐ mergeAll
+  ☐ noop         <-- nop
+  ☐ objOf 
+  ☐ omit 
+  ☐ pick 
+  ☐ pipe
+  ☐ propPath     <-- path
+  ☐ reduce       <-- Has to work with objects
+  ☐ T 
+  ☐ unshift      <-- Prepend
+  ☐ zipObj 
+  
+Crocks:
+  ☐ assign       <-- merge
+  ☐ constant     <-- always
+  ☐ isArray      <-- is     
+  ☐ isDate       <-- is
+  ☐ isDefined    <-- not(isNill) 
+  ☐ isInteger    <-- is
+  ☐ isNil    
+  ☐ objOf 
+    
+Not in Ramda:
+  ☐ dateDiff 
+  ☐ safePromise 
+  ☐ ensureArray 
+      
+  // Specifics
+      
+  // Use Flyd
+  Stream 
+  
+  // Belongs to error;
+  dieOnError 
+  
+  // Belongs to schemas
+  mergeMultipleSchemas
+  mergeSchemas 
+  omitFromSchema 
+  
+  // Belongs to endpoint
+  processFetchResponse 
+  parseResponseBody 
+  
+  Belongs to eventsourcing
+  formatStream
+  getIdFromStream 
+  extractIdFromEventStream

@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+		"baseUrl": ".",
+		"outDir": "./build",
+		"rootDir": "./",
+    "allowJs": true,
+		"alwaysStrict": false,
+		"checkJs": false,
+		"declarationMap": true,
+		"noImplicitAny": false,
+		"strict": false,
+		"strictBindCallApply": false,
+		"strictFunctionTypes": false,
+		"strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitThis": false,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "noErrorTruncation":true,
+    // This one is important so jsonschema-definer works with optionals
+    "strictNullChecks": true,
+    "target": "ES2022",
+    "paths": {
+			"@bett3r-dev/bett3r-utils": ["dependencies/bett3r-utils/src"],
+			"@bett3r-dev/crocks": ["dependencies/crocks/src"],
+			"@bett3r-dev/server-utils": ["dependencies/server-utils/src"]
+		}
+	},
+	"ts-node": {
+		"transpileOnly": true,
+		"ignore": [
+			"(?:^|/)node_modules/",
+      "build"
+		]
+	},
+	"include": [
+		"src"
+  ]
+}
