@@ -1,6 +1,6 @@
 {
   "name": "@bett3r-dev/bett3r-utils",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "license": "UNLICENSED",
