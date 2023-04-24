@@ -1,6 +1,6 @@
 {
   "name": "@bett3r-dev/bett3r-utils",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "license": "UNLICENSED",
@@ -27,5 +27,5 @@
     "typedoc": "^0.24.5",
     "typescript": "^5.0.4"
   },
-  "dependencies": { }
+  "dependencies": {}
 }
