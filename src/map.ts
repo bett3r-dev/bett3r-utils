@@ -1,13 +1,12 @@
 // export interface DictionaryObject<T> {[index: string]: T}
 export type ArrayIterator<T, U> = (x: T, index:any, collection:T[]) => U;
 export type RecordIterator<T, U> = (x: T, prop: string, inputObj: Record<string|number|symbol, T>) => U;
-import {curry} from 'ramda'
 import { Unpack } from './common';
 
 /**
  * Takes a function and a functor, applies the function to each of the functor's values, and returns a functor of the same shape.
  * It works for both Arrays and Objects.
- * 
+ *
  * @example
  * ```typescript
  * const double = x => x * 2;
@@ -16,7 +15,7 @@ import { Unpack } from './common';
  *
  * map(double, {x: 1, y: 2, z: 3}); //=> {x: 2, y: 4, z: 6}
  * ```
- * 
+ *
  * @param fn Map function to apply
  * @param iterable collection to iterate
  */

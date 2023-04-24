@@ -1,8 +1,10 @@
-import { compose, isNil, not } from 'ramda';
 import {safePromise} from "../src/safePromise";
 
 describe("@bett3r-dev/crocks", function () {
   describe( 'safePromise', function() {
+    const isNil = (value:any) => [null, undefined].includes(value);
+    const not = (value:any) => !value;
+    const compose = (f:any, g:any) => (x:any) => f(g(x));
     it( 'returns rejected promise of null', done => {
       safePromise(isNil, null )
         .then( done , () => done());

@@ -1,5 +1,8 @@
 type DateUnits = 'milliseconds' | 'seconds' | 'minutes' | 'hours' | 'days' | 'months' | 'years';
-import { add, subtract, pipe } from 'ramda'
+
+const add = (a: number, b: number) => a + b;
+const subtract = (a: number, b: number) => a - b;
+const pipe = (...fns: any[]) => (x: any) => fns.reduce((v, f) => f(v), x);
 /**
  * Performs date difference d1 - d2 in the specified unit.
  * @param d1 Date
@@ -54,7 +57,7 @@ const _operateDate = (op: 'add' | 'subtract', date: any, amount: number, unit: D
  * @param date The target date
  * @param amount The amount to add
  * @param unit The unit of the determined amount to add
- * @returns 
+ * @returns
  */
 export const dateAdd = (date: any, amount:number, unit: DateUnits ) => {
   return _operateDate('add', date, amount, unit)
@@ -65,7 +68,7 @@ export const dateAdd = (date: any, amount:number, unit: DateUnits ) => {
  * @param date The target date
  * @param amount The amount to subtract
  * @param unit The unit of the determined amount to subtract
- * @returns 
+ * @returns
  */
 export const dateSubtract = (date: any, amount:number, unit: DateUnits ) => {
   return _operateDate('add', date, amount, unit)
