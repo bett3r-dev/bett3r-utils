@@ -10,7 +10,7 @@ declare module 'events' {
 export class TypedEventEmitter<T> {
     private emitter = new NativeEventEmitter();
 
-    on<K extends keyof T>(event: K, listener: (arg?: T[K]) => void): this {
+    on<K extends keyof T>(event: K, listener: (arg: T[K]) => void): this {
         this.emitter.on(event as string, listener);
         return this;
     }
@@ -19,12 +19,12 @@ export class TypedEventEmitter<T> {
         return this.emitter.emit(event as string, arg);
     }
 
-    off<K extends keyof T>(event: K, listener: (arg?: T[K]) => void): this {
+    off<K extends keyof T>(event: K, listener: (arg: T[K]) => void): this {
         this.emitter.off(event as string, listener);
         return this;
     }
 
-    once<K extends keyof T>(event: K, listener: (arg?: T[K]) => void): this {
+    once<K extends keyof T>(event: K, listener: (arg: T[K]) => void): this {
         this.emitter.once(event as string, listener);
         return this;
     }
@@ -46,12 +46,12 @@ export class TypedEventEmitter<T> {
         return this.emitter.listenerCount(event as string);
     }
 
-    prependListener<K extends keyof T>(event: K, listener: (arg?: T[K]) => void): this {
+    prependListener<K extends keyof T>(event: K, listener: (arg: T[K]) => void): this {
         this.emitter.prependListener(event as string, listener);
         return this;
     }
 
-    prependOnceListener<K extends keyof T>(event: K, listener: (arg?: T[K]) => void): this {
+    prependOnceListener<K extends keyof T>(event: K, listener: (arg: T[K]) => void): this {
         this.emitter.prependOnceListener(event as string, listener);
         return this;
     }
