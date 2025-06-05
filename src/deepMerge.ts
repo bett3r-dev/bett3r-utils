@@ -36,9 +36,10 @@ export function deepMerge<A extends JsonObject, B extends JsonObject>(
       continue;
     }
     
-    // If both are arrays, concatenate them
+    // If both are arrays, concatenate them and remove duplicates
     if (Array.isArray(valueA) && Array.isArray(valueB)) {
-      result[key] = [...valueA, ...valueB];
+      const combined = [...valueA, ...valueB];
+      result[key] = combined.filter((item, index) => combined.indexOf(item) === index);
       continue;
     }
     

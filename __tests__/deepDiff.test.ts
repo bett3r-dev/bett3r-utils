@@ -87,30 +87,45 @@ describe('deepDiff', function() {
   });
 
   describe('array differences', () => {
-    it('detects array content changes', () => {
-      expect(deepDiff({tags: ['x']}, {tags: ['x', 'y']})).toEqual({
-        tags: ['x']
+    it('detects new items in arrays', () => {
+      expect(deepDiff({tags: ['x', 'y']}, {tags: ['x']})).toEqual({
+        tags: ['y']
       });
     });
 
-    it('detects array order changes', () => {
-      expect(deepDiff({tags: ['x', 'y']}, {tags: ['y', 'x']})).toEqual({
+    it('returns empty when no new items in array', () => {
+      expect(deepDiff({tags: ['x']}, {tags: ['x', 'y']})).toEqual({});
+    });
+
+    it('ignores array order - no diff when same elements', () => {
+      expect(deepDiff({tags: ['x', 'y']}, {tags: ['y', 'x']})).toEqual({});
+    });
+
+    it('detects all items when comparing to empty array', () => {
+      expect(deepDiff({tags: ['x', 'y']}, {tags: []})).toEqual({
         tags: ['x', 'y']
       });
     });
 
-    it('detects empty vs non-empty arrays', () => {
-      expect(deepDiff({tags: []}, {tags: ['x']})).toEqual({
-        tags: []
+    it('returns empty when comparing empty to non-empty arrays', () => {
+      expect(deepDiff({tags: []}, {tags: ['x']})).toEqual({});
+    });
+
+    it('detects new nested objects in arrays', () => {
+      expect(deepDiff(
+        {items: [{id: 1}, {id: 2}, {id: 3}]}, 
+        {items: [{id: 1}, {id: 2}]}
+      )).toEqual({
+        items: [{id: 3}]
       });
     });
 
-    it('detects nested array changes', () => {
+    it('detects complex new items in arrays', () => {
       expect(deepDiff(
-        {matrix: [[1, 2], [3, 4]]}, 
-        {matrix: [[1, 2], [3, 5]]}
+        {matrix: [[1, 2], [3, 4], [5, 6]]}, 
+        {matrix: [[1, 2], [3, 4]]}
       )).toEqual({
-        matrix: [[1, 2], [3, 4]]
+        matrix: [[5, 6]]
       });
     });
   });
@@ -191,11 +206,11 @@ describe('deepDiff', function() {
   });
 
   describe('complex mixed scenarios', () => {
-    it('handles the original complex example', () => {
+    it('handles the original complex example with new array behavior', () => {
       const A = {
         id: 1,
         name: 'Alpha',
-        meta: { size: 42, tags: ['x'] },
+        meta: { size: 42, tags: ['x', 'z'] },
         extra: true,
       };
       
@@ -208,16 +223,16 @@ describe('deepDiff', function() {
 
       expect(deepDiff(A, B)).toEqual({
         name: 'Alpha',
-        meta: { tags: ['x'] },
+        meta: { tags: ['z'] },
         extra: true,
         removed: undefined
       });
     });
 
-    it('handles mixed type and structure changes', () => {
+    it('handles mixed type and structure changes with arrays', () => {
       const A = {
         data: {
-          items: ['a', 'b'],
+          items: ['a', 'b', 'c'],
           count: 2,
           metadata: {
             created: '2023-01-01',
@@ -229,7 +244,7 @@ describe('deepDiff', function() {
 
       const B = {
         data: {
-          items: ['a', 'b', 'c'],
+          items: ['a', 'b'],
           count: 3,
           metadata: {
             created: '2023-01-01',
@@ -242,7 +257,7 @@ describe('deepDiff', function() {
 
       expect(deepDiff(A, B)).toEqual({
         data: {
-          items: ['a', 'b'],
+          items: ['c'],
           count: 2,
           metadata: {
             active: true,
@@ -288,12 +303,23 @@ describe('deepDiff', function() {
       expect(deepDiff(deepA, deepB)).toEqual(expected);
     });
 
-    it('handles circular reference prevention (arrays treated as values)', () => {
-      const objA = { arr: [1, 2, { nested: 'A' }] };
-      const objB = { arr: [1, 2, { nested: 'B' }] };
+    it('handles arrays with complex objects', () => {
+      const objA = { 
+        users: [
+          { id: 1, name: 'Alice' }, 
+          { id: 2, name: 'Bob' },
+          { id: 3, name: 'Charlie' }
+        ] 
+      };
+      const objB = { 
+        users: [
+          { id: 1, name: 'Alice' }, 
+          { id: 2, name: 'Bob' }
+        ] 
+      };
       
       expect(deepDiff(objA, objB)).toEqual({
-        arr: [1, 2, { nested: 'A' }]
+        users: [{ id: 3, name: 'Charlie' }]
       });
     });
   });

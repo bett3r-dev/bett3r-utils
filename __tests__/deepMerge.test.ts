@@ -125,6 +125,12 @@ describe('deepMerge', function() {
         tags: ['x', 'y', 'z']
       });
     });
+    
+    it('concatenates arrays, skips duplicates', () => {
+      expect(deepMerge({ tags: ['x', 'y'] }, { tags: ['y', 'z'] })).toEqual({
+        tags: ['x', 'y', 'z']
+      });
+    });
 
     it('concatenates arrays with different lengths', () => {
       expect(deepMerge({ tags: ['a', 'b', 'c'] }, { tags: ['x'] })).toEqual({
@@ -492,7 +498,7 @@ describe('deepMerge', function() {
         { arr: [null, 'a', undefined] },
         { arr: [1, null] }
       )).toEqual({
-        arr: [null, 'a', undefined, 1, null]
+        arr: [null, 'a', undefined, 1]
       });
     });
 
@@ -501,7 +507,7 @@ describe('deepMerge', function() {
         { tags: ['common', 'a', 'common'] },
         { tags: ['b', 'common', 'c'] }
       )).toEqual({
-        tags: ['common', 'a', 'common', 'b', 'common', 'c']
+        tags: ['common', 'a', 'b', 'c']
       });
     });
   });

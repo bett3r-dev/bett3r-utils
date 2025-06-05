@@ -6,6 +6,7 @@ import { deepEquals } from "./deepEquals";
  * Returns the slice of `a` that differs from `b`.
  *  – Added/changed keys carry `a`'s value.
  *  – Keys that exist in `b` but not in `a` are surfaced with `undefined`.
+ *  – For arrays, only items that are new in `a` (not present in `b`) are included.
  */
 export function deepDiff<A extends JsonObject, B extends JsonObject>(
   a: A,
@@ -24,6 +25,17 @@ export function deepDiff<A extends JsonObject, B extends JsonObject>(
 
       // identical → skip
       if (deepEquals(valA, valB)) continue;
+
+      // both arrays → compare elements and extract new ones
+      if (Array.isArray(valA) && Array.isArray(valB)) {
+        const newItems = valA.filter(itemA => 
+          !valB.some(itemB => deepEquals(itemA, itemB))
+        );
+        if (newItems.length > 0) {
+          result[k] = newItems;
+        }
+        continue;
+      }
 
       // both plain objects → recurse
       if (
