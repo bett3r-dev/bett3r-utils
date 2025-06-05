@@ -5,7 +5,7 @@ import { deepEquals } from "./deepEquals";
  * deepDiff
  * Returns the slice of `a` that differs from `b`.
  *  – Added/changed keys carry `a`'s value.
- *  – Keys that exist in `b` but not in `a` are surfaced with `undefined`.
+ *  – Keys that exist in `b` but not in `a` are surfaced with `null`.
  *  – For arrays, only items that are new in `a` (not present in `b`) are included.
  */
 export function deepDiff<A extends JsonObject, B extends JsonObject>(
@@ -61,7 +61,7 @@ export function deepDiff<A extends JsonObject, B extends JsonObject>(
       result[k] = a[k];
     } else if (!hasA && hasB) {
       // Removed from A
-      result[k] = undefined;
+      result[k] = null;
     }
   }
 
