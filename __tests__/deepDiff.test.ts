@@ -24,31 +24,31 @@ describe('deepDiff', function() {
 
   describe('primitive value changes', () => {
     it('detects string changes', () => {
-      expect(deepDiff({name: 'Alpha'}, {name: 'Beta'})).toEqual({
+      expect(deepDiff({name: 'Beta'}, {name: 'Alpha'})).toEqual({
         name: 'Alpha'
       });
     });
 
     it('detects number changes', () => {
-      expect(deepDiff({count: 5}, {count: 10})).toEqual({
+      expect(deepDiff({count: 10}, {count: 5})).toEqual({
         count: 5
       });
     });
 
     it('detects boolean changes', () => {
-      expect(deepDiff({active: true}, {active: false})).toEqual({
+      expect(deepDiff({active: false}, {active: true})).toEqual({
         active: true
       });
     });
 
     it('detects null value changes', () => {
-      expect(deepDiff({value: null}, {value: 'something'})).toEqual({
+      expect(deepDiff({value: 'something'}, {value: null})).toEqual({
         value: null
       });
     });
 
     it('detects undefined value changes', () => {
-      expect(deepDiff({value: undefined}, {value: 'something'})).toEqual({
+      expect(deepDiff({value: 'something'}, {value: undefined})).toEqual({
         value: undefined
       });
     });
@@ -56,65 +56,65 @@ describe('deepDiff', function() {
 
   describe('type changes', () => {
     it('detects string to number changes', () => {
-      expect(deepDiff({value: '42'}, {value: 42})).toEqual({
+      expect(deepDiff({value: 42}, {value: '42'})).toEqual({
         value: '42'
       });
     });
 
     it('detects object to array changes', () => {
-      expect(deepDiff({data: {a: 1}}, {data: [1, 2, 3]})).toEqual({
+      expect(deepDiff({data: [1, 2, 3]}, {data: {a: 1}})).toEqual({
         data: {a: 1}
       });
     });
 
     it('detects array to object changes', () => {
-      expect(deepDiff({data: [1, 2, 3]}, {data: {a: 1}})).toEqual({
+      expect(deepDiff({data: {a: 1}}, {data: [1, 2, 3]})).toEqual({
         data: [1, 2, 3]
       });
     });
 
     it('detects primitive to object changes', () => {
       expect(deepDiff({value: 'text'}, {value: {nested: true}})).toEqual({
-        value: 'text'
+        value: {nested: true}
       });
     });
 
     it('detects object to primitive changes', () => {
       expect(deepDiff({value: {nested: true}}, {value: 'text'})).toEqual({
-        value: {nested: true}
+        value: 'text'
       });
     });
   });
 
   describe('array differences', () => {
     it('detects new items in arrays', () => {
-      expect(deepDiff({tags: ['x', 'y']}, {tags: ['x']})).toEqual({
+      expect(deepDiff({tags: ['x']}, {tags: ['x', 'y']})).toEqual({
         tags: ['y']
       });
     });
 
     it('returns empty when no new items in array', () => {
-      expect(deepDiff({tags: ['x']}, {tags: ['x', 'y']})).toEqual({});
+      expect(deepDiff({tags: ['x', 'y']}, {tags: ['x']})).toEqual({});
     });
 
     it('ignores array order - no diff when same elements', () => {
-      expect(deepDiff({tags: ['x', 'y']}, {tags: ['y', 'x']})).toEqual({});
+      expect(deepDiff({tags: ['y', 'x']}, {tags: ['x', 'y']})).toEqual({});
     });
 
     it('detects all items when comparing to empty array', () => {
-      expect(deepDiff({tags: ['x', 'y']}, {tags: []})).toEqual({
+      expect(deepDiff({tags: []}, {tags: ['x', 'y']})).toEqual({
         tags: ['x', 'y']
       });
     });
 
     it('returns empty when comparing empty to non-empty arrays', () => {
-      expect(deepDiff({tags: []}, {tags: ['x']})).toEqual({});
+      expect(deepDiff({tags: ['x']}, {tags: []})).toEqual({});
     });
 
     it('detects new nested objects in arrays', () => {
       expect(deepDiff(
-        {items: [{id: 1}, {id: 2}, {id: 3}]}, 
-        {items: [{id: 1}, {id: 2}]}
+        {items: [{id: 1}, {id: 2}]},
+        {items: [{id: 1}, {id: 2}, {id: 3}]}
       )).toEqual({
         items: [{id: 3}]
       });
@@ -122,8 +122,8 @@ describe('deepDiff', function() {
 
     it('detects complex new items in arrays', () => {
       expect(deepDiff(
-        {matrix: [[1, 2], [3, 4], [5, 6]]}, 
-        {matrix: [[1, 2], [3, 4]]}
+        {matrix: [[1, 2], [3, 4]]},
+        {matrix: [[1, 2], [3, 4], [5, 6]]}
       )).toEqual({
         matrix: [[5, 6]]
       });
@@ -132,26 +132,26 @@ describe('deepDiff', function() {
 
   describe('property addition and removal', () => {
     it('detects added properties', () => {
-      expect(deepDiff({a: 1, b: 2}, {a: 1})).toEqual({
+      expect(deepDiff({a: 1}, {a: 1, b: 2})).toEqual({
         b: 2
       });
     });
 
     it('detects removed properties', () => {
-      expect(deepDiff({a: 1}, {a: 1, b: 2})).toEqual({
+      expect(deepDiff({a: 1, b: 2}, {a: 1})).toEqual({
         b: null
       });
     });
 
     it('detects multiple added properties', () => {
-      expect(deepDiff({a: 1, b: 2, c: 3}, {a: 1})).toEqual({
+      expect(deepDiff({a: 1}, {a: 1, b: 2, c: 3})).toEqual({
         b: 2,
         c: 3
       });
     });
 
     it('detects multiple removed properties', () => {
-      expect(deepDiff({a: 1}, {a: 1, b: 2, c: 3})).toEqual({
+      expect(deepDiff({a: 1, b: 2, c: 3}, {a: 1})).toEqual({
         b: null,
         c: null
       });
@@ -161,8 +161,8 @@ describe('deepDiff', function() {
   describe('nested object differences', () => {
     it('detects nested property changes', () => {
       expect(deepDiff(
-        {user: {name: 'Alice', age: 30}}, 
-        {user: {name: 'Bob', age: 30}}
+        {user: {name: 'Bob', age: 30}}, 
+        {user: {name: 'Alice', age: 30}}
       )).toEqual({
         user: {name: 'Alice'}
       });
@@ -177,8 +177,8 @@ describe('deepDiff', function() {
 
     it('detects nested property additions', () => {
       expect(deepDiff(
-        {user: {name: 'Alice', age: 30}}, 
-        {user: {name: 'Alice'}}
+        {user: {name: 'Alice'}},
+        {user: {name: 'Alice', age: 30}}
       )).toEqual({
         user: {age: 30}
       });
@@ -186,8 +186,8 @@ describe('deepDiff', function() {
 
     it('detects nested property removals', () => {
       expect(deepDiff(
-        {user: {name: 'Alice'}}, 
-        {user: {name: 'Alice', age: 30}}
+        {user: {name: 'Alice', age: 30}},
+        {user: {name: 'Alice'}}
       )).toEqual({
         user: {age: null}
       });
@@ -195,8 +195,8 @@ describe('deepDiff', function() {
 
     it('handles deeply nested changes', () => {
       expect(deepDiff(
-        {a: {b: {c: {d: 1}}}}, 
-        {a: {b: {c: {d: 2}}}}
+        {a: {b: {c: {d: 2}}}}, 
+        {a: {b: {c: {d: 1}}}}
       )).toEqual({
         a: {b: {c: {d: 1}}}
       });
@@ -204,8 +204,8 @@ describe('deepDiff', function() {
 
     it('handles empty nested objects', () => {
       expect(deepDiff(
-        {nested: {}}, 
-        {nested: {value: 1}}
+        {nested: {value: 1}}, 
+        {nested: {}}
       )).toEqual({
         nested: {value: null}
       });
@@ -228,7 +228,7 @@ describe('deepDiff', function() {
         removed: 'obsolete',
       };
 
-      expect(deepDiff(A, B)).toEqual({
+      expect(deepDiff(B, A)).toEqual({
         name: 'Alpha',
         meta: { tags: ['z'] },
         extra: true,
@@ -262,7 +262,7 @@ describe('deepDiff', function() {
         newField: 'added'
       };
 
-      expect(deepDiff(A, B)).toEqual({
+      expect(deepDiff(B, A)).toEqual({
         data: {
           items: ['c'],
           count: 2,
@@ -284,7 +284,7 @@ describe('deepDiff', function() {
       const objB = Object.create(null);
       objB.a = 2;
       
-      expect(deepDiff(objA, objB)).toEqual({a: 1});
+      expect(deepDiff(objB, objA)).toEqual({a: 1});
     });
 
     it('handles objects with inherited properties', () => {
@@ -294,7 +294,7 @@ describe('deepDiff', function() {
       const childB = Object.create(parent);
       childB.own = 'B';
       
-      expect(deepDiff(childA, childB)).toEqual({own: 'A'});
+      expect(deepDiff(childB, childA)).toEqual({own: 'A'});
     });
 
     it('handles very deep nesting', () => {
@@ -307,7 +307,7 @@ describe('deepDiff', function() {
       const deepB = createDeepObject(10, 'B');
       const expected = createDeepObject(10, 'A');
 
-      expect(deepDiff(deepA, deepB)).toEqual(expected);
+      expect(deepDiff(deepB, deepA)).toEqual(expected);
     });
 
     it('handles arrays with complex objects', () => {
@@ -325,7 +325,7 @@ describe('deepDiff', function() {
         ] 
       };
       
-      expect(deepDiff(objA, objB)).toEqual({
+      expect(deepDiff(objB, objA)).toEqual({
         users: [{ id: 3, name: 'Charlie' }]
       });
     });

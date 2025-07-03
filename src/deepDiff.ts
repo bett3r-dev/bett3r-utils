@@ -3,12 +3,29 @@ import { deepEquals } from "./deepEquals";
 
 /**
  * deepDiff
- * Returns the slice of `a` that differs from `b`.
- *  – Added/changed keys carry `a`'s value.
- *  – Keys that exist in `b` but not in `a` are surfaced with `null`.
- *  – For arrays, only items that are new in `a` (not present in `b`) are included.
+ * Compare two objects and return the slice of `patch` that differs from `current`.
+ * In other words, it returns the minimal object/array that would need to be merged
+ * into `current` to arrive at `patch`.
+ *
+ *  – Added/changed keys carry `patch`'s value.
+ *  – Keys that exist in `current` but not in `patch` are surfaced with `null`.
+ *  – For arrays, only items that are new in `patch` (not present in `current`) are included.
+ *
+ * NOTE: Prior to v4 this function expected `(patch, current)`. The parameter
+ *        order has been swapped to be more intuitive.
  */
-export function deepDiff<A extends JsonObject, B extends JsonObject>(
+export function deepDiff<Current extends JsonObject, Patch extends JsonObject>(
+  current: Current,
+  patch: Patch
+): Partial<Current & Patch> {
+  return _deepDiff(patch, current) as Partial<Current & Patch>;
+}
+
+/**
+ * Internal implementation that expects `(a, b)` where `a` is the *new* state and
+ * `b` is the *old* state. This is the original algorithm kept for reuse.
+ */
+function _deepDiff<A extends JsonObject, B extends JsonObject>(
   a: A,
   b: B
 ): Partial<A & B> {
@@ -28,7 +45,7 @@ export function deepDiff<A extends JsonObject, B extends JsonObject>(
 
       // both arrays → compare elements and extract new ones
       if (Array.isArray(valA) && Array.isArray(valB)) {
-        const newItems = valA.filter(itemA => 
+        const newItems = valA.filter(itemA =>
           !valB.some(itemB => deepEquals(itemA, itemB))
         );
         if (newItems.length > 0) {
@@ -46,7 +63,7 @@ export function deepDiff<A extends JsonObject, B extends JsonObject>(
         !Array.isArray(valA) &&
         !Array.isArray(valB)
       ) {
-        const nested = deepDiff(
+        const nested = _deepDiff(
           valA as JsonObject,
           valB as JsonObject
         );
