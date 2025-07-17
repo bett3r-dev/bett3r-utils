@@ -8,7 +8,7 @@ import { deepEquals } from "./deepEquals";
  * into `current` to arrive at `patch`.
  *
  *  – Added/changed keys carry `patch`'s value.
- *  – Keys that exist in `current` but not in `patch` are surfaced with `null`.
+ *  – Keys that exist in `current` but not in `patch` are ignored.
  *  – For arrays, only items that are new in `patch` (not present in `current`) are included.
  *
  * NOTE: Prior to v4 this function expected `(patch, current)`. The parameter
@@ -78,7 +78,7 @@ function _deepDiff<A extends JsonObject, B extends JsonObject>(
       result[k] = a[k];
     } else if (!hasA && hasB) {
       // Removed from A
-      result[k] = null;
+      // result[k] = null;
     }
   }
 

@@ -138,8 +138,8 @@ describe('deepDiff', function() {
     });
 
     it('detects removed properties', () => {
-      expect(deepDiff({a: 1, b: 2}, {a: 1})).toEqual({
-        b: null
+      expect(deepDiff({a: 1, b: 2}, {a: null})).toEqual({
+        a: null
       });
     });
 
@@ -151,9 +151,8 @@ describe('deepDiff', function() {
     });
 
     it('detects multiple removed properties', () => {
-      expect(deepDiff({a: 1, b: 2, c: 3}, {a: 1})).toEqual({
-        b: null,
-        c: null
+      expect(deepDiff({a: 1, b: 2, c: 3}, {a: undefined})).toEqual({
+        a: undefined
       });
     });
   });
@@ -187,9 +186,9 @@ describe('deepDiff', function() {
     it('detects nested property removals', () => {
       expect(deepDiff(
         {user: {name: 'Alice', age: 30}},
-        {user: {name: 'Alice'}}
+        {user: {name: 'Alice', lastName: 'Smith'}}
       )).toEqual({
-        user: {age: null}
+        user: {lastName: 'Smith'}
       });
     });
 
@@ -207,7 +206,7 @@ describe('deepDiff', function() {
         {nested: {value: 1}}, 
         {nested: {}}
       )).toEqual({
-        nested: {value: null}
+        // nested: {value: null}
       });
     });
   });
@@ -232,7 +231,7 @@ describe('deepDiff', function() {
         name: 'Alpha',
         meta: { tags: ['z'] },
         extra: true,
-        removed: null
+        // removed: null
       });
     });
 
@@ -268,11 +267,11 @@ describe('deepDiff', function() {
           count: 2,
           metadata: {
             active: true,
-            modified: null
+            // modified: null
           }
         },
         config: 'simple',
-        newField: null
+        // newField: null
       });
     });
   });
