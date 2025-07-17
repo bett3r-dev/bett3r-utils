@@ -27,5 +27,5 @@
     "typedoc": "^0.24.5",
     "typescript": "^5.0.4"
   },
-  "dependencies": {}
+  "packageManager": "yarn@4.6.0+sha224.acd0786f07ffc6c933940eb65fc1d627131ddf5455bddcc295dc90fd"
 }
