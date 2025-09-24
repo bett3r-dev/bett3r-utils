@@ -14,7 +14,7 @@
   "scripts": {
     "clean": "rm -rf build",
     "prebuild": "yarn clean && yarn docs",
-    "build": "tsc",
+    "build": "tsc --build --verbose",
     "test": "jest",
     "docs": "typedoc --options typedoc.json"
   },

@@ -67,15 +67,23 @@ function _deepDiff<A extends JsonObject, B extends JsonObject>(
           valA as JsonObject,
           valB as JsonObject
         );
-        if (Object.keys(nested).length) result[k] = nested;
+        // Filter out undefined values from nested result
+        const filteredNested = Object.fromEntries(
+          Object.entries(nested).filter(([_, value]) => value !== undefined)
+        );
+        if (Object.keys(filteredNested).length) result[k] = filteredNested;
         continue;
       }
 
-      // value changed
-      result[k] = valA;
+      // value changed - only include if not undefined
+      if (valA !== undefined) {
+        result[k] = valA;
+      }
     } else if (hasA && !hasB) {
-      // Added in A
-      result[k] = a[k];
+      // Added in A - only include if not undefined
+      if (a[k] !== undefined) {
+        result[k] = a[k];
+      }
     } else if (!hasA && hasB) {
       // Removed from A
       // result[k] = null;

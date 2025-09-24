@@ -6,6 +6,13 @@ describe('deepDiff', function() {
       expect(deepDiff({a: 1, b: 2, c: 3, d: 4}, {a: 1, b: 2, c: 3, d: 4})).toEqual({});
     });
 
+    it('returns empty object for differences that are all undefined', () => {
+      expect(deepDiff({a: 1, b: 2, c: 3, d: 4}, {e: undefined, f: undefined, g: undefined, h: undefined})).toEqual({});
+    });
+    it('returns empty object for nested differences that are all undefined', () => {
+      expect(deepDiff({a: 1, b: {c: 3, d: 4}}, {b: {e: undefined, f: undefined, g: undefined, h: undefined}})).toEqual({});
+    });
+
     it('returns empty object for identical complex objects', () => {
       const obj = {
         id: 1,
